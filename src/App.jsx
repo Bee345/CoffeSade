@@ -32,7 +32,8 @@ function App() {
       </p> */}
 
       <section>
-        <h1 className='bg-amber-600 text-center'>Welcome, I hope this one won't be a problem to face</h1>
+        <h1 className='bg-amber-600 text-center font-bold'>Welcome, I hope this one won't be a problem to face</h1>
+        <div className="displayBox bg-gradient-to-t from-[#fd4] to-[#d5b] w-[80%] h-[200px] mx-auto my-8 flex justify-center gap-20 text-center items-center flex-wrap rounded-2xl"><p>We re good on out own but w e need to make it cool off </p> <p>Sensing the change in the energy will make u go better to the adaptability</p></div>
       </section>
     </>
   )
