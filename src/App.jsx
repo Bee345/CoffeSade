@@ -5,6 +5,7 @@ import React from 'react'
 import './App.css'
 import './index.css'
 import LHeader from './components/LHeader';
+import LSHeader from './components/LSHeader.jsx';
 
 function App() {
   // const [count, setCount] = useState(0);
@@ -32,7 +33,8 @@ function App() {
         Click on the Vite and React logos to learn more
       </p> */}
 
-     <LHeader/>
+     {/* <LHeader/> */}
+      <LSHeader/>
       <section>
         <h1 className='bg-amber-600 text-center font-bold'>Welcome, I hope this one won't be a problem to face</h1> 
 
