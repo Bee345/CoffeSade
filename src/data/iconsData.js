@@ -8,13 +8,13 @@ export const iconsData = [
     },
     { 
         id: 2,
-        icon: "Coffeesade-bakeryICon1.png",
+        icon: "CoffeeSade-bakeryICon1.png",
         title: "Morning Bakery",
         desc: "Crossants, diashes, trarts & foccacia baked in-house",
     },
     { 
         id: 3,
-        icon: "CoffeeSade-brakfastIcon1,png",
+        icon: "CoffeeSade-breakfastIcon1.png",
         title: "All-in day Breakfast",
         desc: "Stretched Your Morning__ Classic, served Until closing."
     },

@@ -11,6 +11,7 @@ const LSHeader = () => {
     <div className="w-[100px] h-[100%] flex justify-center items-center rounded-md text-2xl">
       <img src="coffee ok.png" alt="This is for the logo section" className='w-[100%] h-[100%]' />
     </div>
+    {/* Nav Link Container */}
     <nav className="flex justify-between gap-5 py-3 px-2 font-inter text-[16px] text-base text-[#ede6df]">
       <Link to="/" className='w-fit h-[30px] px-3 rounded-md hover:shadow-2xl hover:shadow-slate-300 hover:transition-shadow duration-500 ease-in-out'>Home</Link>
       <Link to="/Menu" className='w-fit h-[30px] px-3 rounded-md hover:shadow-2xl hover:shadow-slate-300 hover:transition-shadow duration-500 ease-in-out'>Menu</Link>

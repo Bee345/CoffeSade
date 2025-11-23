@@ -28,7 +28,7 @@ const espressoData = [
         name: "Flat White",
         price: "$4.25",
         description: "Espresso with steamed milk, no foam."
-    }
+    },
     { 
         id: 6,
         name: "Mocha",
@@ -47,4 +47,6 @@ const espressoData = [
         price: "$5.22",
         description: "Equal parts espresso and steamed milk for a balanced flavor."
     }
-];
+]
+
+export {espressoData};

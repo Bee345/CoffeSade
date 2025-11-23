@@ -1,5 +1,5 @@
 import React from 'react'
-import {menuDisplayData} from '../../data/menuDisplayData.js'
+import {menuDisplayData} from '../../data/menuDisplayData.js';
 
 
 const FirstBLayer = () => {
