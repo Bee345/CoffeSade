@@ -4,17 +4,18 @@ const FirstDLayer = () => {
     // Icon mapping for drink-specific emojis
   const getDrinkIcon = (name) => {
     const icons = {
-      Espresso: '☕',
-      Cappuccino: '☕🥛',
-      Latte: '🥛☕',
-      Americano: '☕',
-      'Flat White': '🥛',
-      Mocha: '🍫☕',
-      Macchiato: '☕',
-      Cortado: '☕'
+      'Vanilla Dream': '☕',
+      'Chocolate Eclipse': '☕🥛',
+      'Red Velvet Whisper': '🥛☕',
+      'Salted Caramel Symphony': '☕',
+      'Strawberry Serenade': '🥛',
+      'Lemon Zest Reverie': '🍫☕',
+      'Peanut Butter Harmony': '☕',
+      'Coconut Lagoon': '☕'
     };
     return icons[name] || '☕';
   };
+   
   return (
     <> 
     <style jsx>{`

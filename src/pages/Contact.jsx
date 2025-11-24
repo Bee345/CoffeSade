@@ -1,8 +1,11 @@
 import React from 'react'
+import WelcomeLayout from '@/components/WelcomeLayout.jsx';
 
 const Contact = () => {
   return (
-    <div>Contact</div>
+    <>
+        
+    </>
   )
 }
 

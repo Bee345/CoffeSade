@@ -1,23 +1,27 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
+// BrowserRouter as
 import React from 'react'
-import './App.css'
-import './index.css'
-import LHeader from './components/LHeader';
-import LSHeader from './components/LSHeader.jsx';
-import Banner from './components/Banner.jsx'
-import FirstMainLayer from './components/FirstMainLayer.jsx';
+import { Routes, Route } from 'react-router-dom';
+import './App.css';
+import './index.css';
+// import LHeader from './components/LHeader';
+import WelcomeLayout from './components/WelcomeLayout.jsx';
+import Home from './pages/Home.jsx';
+import Menu from './pages/Menu.jsx';
+import About from './pages/About.jsx';
+
 
 function App() {
-  // const [count, setCount] = useState(0);
-
+  
   return (
-    <>
-      <LSHeader/>
-      <Banner />
-      <FirstMainLayer/>
-    </>
+       <Routes>
+      {/* Layout route */}
+      <Route element={<WelcomeLayout />}>
+        {/* Child pages */}
+        <Route path='/' element={<Home />} />
+        <Route path='/menu' element={<Menu />} />
+        <Route path='/about' element={<About />} />
+      </Route>
+    </Routes>
   )
 }
 

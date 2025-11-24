@@ -44,7 +44,7 @@ const cupCakes = [
     { 
         id: 8,
         name: "Coconut Lagoon",
-        price: "$4011",
+        price: "$4.11",
         description: "Tropical coconut cupcake with pineapple compote core, enveloped in coconut cream cheese frosting and toasted coconut flakes."
     }
 ];

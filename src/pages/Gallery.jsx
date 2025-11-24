@@ -1,8 +1,13 @@
 import React from 'react'
+import WelcomeLayout from '@/components/WelcomeLayout.jsx';
 
 const Gallery = () => {
   return (
-    <div>Gallery</div>
+    <> 
+    <>
+        
+    </> 
+    </>
   )
 }
 
