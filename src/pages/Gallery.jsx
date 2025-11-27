@@ -4,9 +4,7 @@ import WelcomeLayout from '@/components/WelcomeLayout.jsx';
 const Gallery = () => {
   return (
     <> 
-    <>
-        
-    </> 
+      
     </>
   )
 }

@@ -1,8 +1,9 @@
 import React from 'react'
-import FirstALayer from "@/components/allFirstLayer/FirstALayer.jsx";
-import FirstBLayer from "@/components/allFirstLayer/FirstBLayer.jsx";
-import FirstCLayer from "@/components/allFirstLayer/FirstCLayer.jsx";
-import FirstDLayer from "@/components/allFirstLayer/FirstDLayer.jsx"
+import FirstALayer from "@/components/allFirstLayerHome/FirstALayer.jsx";
+import FirstBLayer from "@/components/allFirstLayerHome/FirstBLayer.jsx";
+import FirstCLayer from "@/components/allFirstLayerHome/FirstCLayer.jsx";
+import FirstDLayer from "@/components/allFirstLayerHome/FirstDLayer.jsx";
+import FirstELayer from '@/components/allFirstLayerHome/FirstELayer.jsx';
 
 
 const FirstMainLayer = () => {
@@ -13,6 +14,7 @@ const FirstMainLayer = () => {
       <FirstBLayer />
       <FirstCLayer />
       <FirstDLayer />
+      <FirstELayer />
     </section>
     </>
   )

@@ -8,8 +8,8 @@ import { Linkedin } from "lucide-react";
 const Footer = () => {
   return (
     <> 
-    <footer className='w-[100%] h-fit bg-[#455238] px-10 py-4 sm:py-6 lg:py-12'>
-      <section className="w-full flex flex-col items-center gap-6 px-4 sm:gap-8 sm:px-6 lg:flex-row lg:gap-20 lg:px-10 xl:gap-32 xl:px-20 2xl:gap-40 2xl:px-40"> 
+    <footer className='w-[100%] h-fit bg-[#455238] px-5 py-4 sm:py-6 lg:py-12 overflow-x-hidden'>
+      <section className="w-full flex flex-col items-center  lg:flex-row lg:gap-5 lg:px-10 justify-between max-w-[2000px] mx-auto"> 
         <article className="flex flex-col w-full sm:w-fit px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
           <div className="w-16 h-16 sm:mb-10 sm:w-20 sm:h-20 lg:w-[100px] lg:h-[100px] flex justify-between items-center rounded-md text-lg sm:text-xl lg:text-2xl">
             <img src="coffee ok.png" alt="This is for the l ogo section" className='w-[100%] h-[100%]'/>

@@ -1,6 +1,8 @@
 import React from 'react'
 
-const Online = () => {
+
+
+const Location = () => {
   return (
     <> 
     
@@ -8,4 +10,4 @@ const Online = () => {
   )
 }
 
-export default Online
+export default Location

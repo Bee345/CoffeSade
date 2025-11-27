@@ -1,10 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&family=Caveat:wght@400;700&family=Dancing+Script:wght@400;700&display=swap');
 @import "tailwindcss";
 
-@theme{ 
+@theme {
+    /* FONT FAMILIES */
     --font-inter: "Inter", sans-serif;
     --font-montserrat: "Montserrat", sans-serif;
     --font-playfair: "Playfair", serif;
     --font-caveat: "Caveat", cursive;
     --font-dancing-script: "Dancing Script", cursive;
+
+    /* CUSTOM COFFEE COLORS */
+    --color-brown-500: #8B5E34;
+    --color-brown-600: #6F4518;
+    --color-brown-700: #4A2F0D;
+
+    /* (Optional) lighter accents */
+    --color-brown-300: #C9A47A;
+    --color-brown-100: #F3E9DD;
 }

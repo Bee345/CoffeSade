@@ -1,10 +1,11 @@
 import React from 'react'
-import WelcomeLayout from '@/components/WelcomeLayout.jsx';
+import AllForAbout from '../components/AllForAbout'
+
 
 const About = () => {
   return (
     <> 
-        
+        <AllForAbout />
     </>
   )
 }
