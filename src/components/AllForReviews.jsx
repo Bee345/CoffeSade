@@ -1,5 +1,5 @@
 import React from 'react'
-import ReviewsBanner from './allForReviews/ReviewsBanner';
+import ReviewsBanner from './allForReviewsPage/ReviewsBanner';
 
 const AllForReviews = () => {
   return (
