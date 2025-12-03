@@ -26,7 +26,7 @@ const Header = () => {
           <Link to="/gallery" className="w-fit h-[30px] px-3 rounded-md hover:shadow-2xl hover:shadow-slate-300 hover:transition-shadow duration-500 ease-in-out">Gallery</Link>
           <Link to="/location" className="w-fit h-[30px] px-3 rounded-md hover:shadow-2xl hover:shadow-slate-300 hover:transition-shadow duration-500 ease-in-out">Location</Link>
           <Link to="/contact" className="w-fit h-[30px] px-3 rounded-md hover:shadow-2xl hover:shadow-slate-300 hover:transition-shadow duration-500 ease-in-out">Contact</Link>
-          <Link to="/online" className="border-2 border-[#a07354] bg-[#a07354] px-3 py-1 rounded-xl font-base text-[#ede6df] shadow-md hover:shadow-lg transition-shadow duration-300">Order Online</Link>
+          <Link to="/signup" className="border-2 border-[#a07354] bg-[#a07354] px-3 py-1 rounded-xl font-base text-[#ede6df] shadow-md hover:shadow-lg transition-shadow duration-300">Sign Up</Link>
         </nav>
 
         {/* Mobile Menu Toggle Button */}

@@ -1,5 +1,4 @@
-import React from 'react'
-
+import React from 'react';
 
 const FirstALayer = ({ infos = [] }) => {
   // Sample write-up (under 400 words: ~250 words)
@@ -28,41 +27,54 @@ const FirstALayer = ({ infos = [] }) => {
   const infosToRender = infos.length > 0 ? infos : sampleInfos;
 
   return (
-    <div className="bg-white min-h-screen py-16 px-4 sm:px-6 lg:px-8">
+    <main className="bg-white min-h-screen py-16 px-4 sm:px-6 lg:px-8" role="main" aria-labelledby="about-heading">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+        <section className="text-center mb-12" aria-labelledby="about-heading">
+          <h1 id="about-heading" className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
             About CoffeeSade
           </h1>
-          <div className="w-24 h-1 bg-amber-500 mx-auto rounded-full"></div>
-        </div>
+          <div 
+            className="w-24 h-1 bg-amber-500 mx-auto rounded-full" 
+            role="presentation"
+            aria-hidden="true"
+          ></div>
+        </section>
 
         {/* Write-up Section */}
-        <div className="prose prose-lg max-w-4xl mx-auto mb-16 text-gray-700 leading-relaxed">
+        <section className="prose prose-lg max-w-4xl mx-auto mb-16 text-gray-700 leading-relaxed" aria-labelledby="story-heading">
+          <h2 id="story-heading" className="sr-only">Our Story</h2>
           <div 
             className="text-base sm:text-lg bg-gradient-to-r from-amber-50 to-orange-50 p-8 rounded-2xl shadow-lg border border-amber-100"
             dangerouslySetInnerHTML={{ __html: writeUp.replace(/\n/g, '<br />') }}
           />
-        </div>
+        </section>
 
         {/* Dynamic Infos Section - Maps through the array, destructuring { title, description, icon } */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <section className="grid md:grid-cols-2 lg:grid-cols-4 gap-6" aria-labelledby="features-heading">
+          <h2 id="features-heading" className="sr-only">Key Features</h2>
           {infosToRender.map(({ title, description, icon }, index) => (
-            <div
+            <article
               key={index}
               className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-100 text-center group"
+              role="article"
+              aria-labelledby={`feature-title-${index}`}
             >
-              <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
+              <div 
+                className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300" 
+                role="img" 
+                aria-label={`${title} icon`}
+                aria-hidden={icon ? "false" : "true"}
+              >
                 {icon || '🌟'}
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">{title}</h3>
+              <h3 id={`feature-title-${index}`} className="text-xl font-semibold text-gray-900 mb-3">{title}</h3>
               <p className="text-gray-600">{description}</p>
-            </div>
+            </article>
           ))}
-        </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 };
 

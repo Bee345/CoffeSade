@@ -12,6 +12,7 @@ import Reviews from './pages/Reviews.jsx';
 import Gallery from './pages/Gallery.jsx';
 import Location from './pages/Location.jsx';
 import Contact from './pages/Contact.jsx';
+import SignUp from './pages/SignUp.jsx';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path='/gallery' element={<Gallery />} />
         <Route path='/location' element={<Location />} />
         <Route path='/contact' element={<Contact />} />
+        <Route path='/signup' element={<SignUp />} />
       </Route>
     </Routes>
   )
