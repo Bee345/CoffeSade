@@ -96,11 +96,11 @@ const Header = () => {
             Contact
           </Link>
           <Link
-            to="/Online"
+            to="/SignUp"
             className="mt-auto w-full border-2 border-[#a07354] bg-[#a07354] px-6 py-3 rounded-xl font-semibold text-[#ede6df] shadow-md hover:shadow-lg transition-shadow duration-300 text-center"
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            Order Online
+            Sign Up
           </Link>
         </div>
       </nav>
