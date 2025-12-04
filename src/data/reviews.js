@@ -159,7 +159,7 @@ const reviewsData = [
       "id": 27,
       "Name": "Mia Walker",
       "review": "The app makes browsing easy. Snagged a deal on the Mexican Chiapas—smooth and sweet.",
-      "image": "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face"
+      "image": "Girl3.jpeg"
     },
     {
       "id": 28,

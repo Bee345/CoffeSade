@@ -53,7 +53,7 @@ const FirstDLayer = () => {
         </article>
         <article className="left flex-1 p-6 lg:p-8 flex flex-col justify-center">
           <div className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border border-amber-100/50 max-w-lg mx-auto lg:mx-0 animate-fadeInUp w-full">
-            <h2 className="text-3xl lg:text-4xl font-['Caveat',_cursive] font-bold mb-8 text-center lg:text-left bg-gradient-to-r from-amber-600 via-orange-600 to-brown-600 bg-clip-text text-transparent animate-fadeInUp leading-tight">
+            <h2 className="text-3xl lg:text-4xl font-serif font-bold mb-8 text-center lg:text-left bg-gradient-to-r from-amber-600 via-orange-600 to-brown-600 bg-clip-text text-transparent animate-fadeInUp leading-tight">
               Signature Cupcakes
             </h2>
             <div className="space-y-6">
@@ -71,16 +71,16 @@ const FirstDLayer = () => {
                   </div>
                   
                   <div className="flex-1 relative z-10">
-                    <h3 className="text-xl font-['Caveat',_cursive] font-bold text-gray-800 mb-2 group-hover:text-amber-700 transition-colors duration-300 leading-snug">
+                    <h3 className="text-xl font-serif font-bold text-gray-800 mb-2 group-hover:text-amber-700 transition-colors duration-300 leading-snug">
                       {name}
                     </h3>
-                    <p className="text-gray-600 text-sm leading-relaxed font-light relative z-10 italic font-['Dancing_Script',_cursive]">
+                    <p className="text-gray-600 text-sm leading-relaxed font-light relative z-10 italic">
                       {description}
                     </p>
                   </div>
                   
                   <div className="text-right flex-shrink-0 relative z-10 mt-3 sm:mt-0">
-                    <span className="text-2xl font-['Dancing_Script',_cursive] font-extrabold bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 bg-clip-text text-transparent drop-shadow-sm group-hover:from-orange-500 group-hover:via-red-500 group-hover:to-orange-600 transition-all duration-300 leading-none">
+                    <span className="text-2xl font-serif font-extrabold bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 bg-clip-text text-transparent drop-shadow-sm group-hover:from-orange-500 group-hover:via-red-500 group-hover:to-orange-600 transition-all duration-300 leading-none">
                       {price}
                     </span>
                   </div>
@@ -95,4 +95,4 @@ const FirstDLayer = () => {
   )
 }
 
-export default FirstDLayer
+export default FirstDLayer;
