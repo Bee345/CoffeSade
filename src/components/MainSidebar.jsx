@@ -1,6 +1,6 @@
 import React from 'react'
 
-const MainLayout = () => {
+const MainSidebar = () => {
   return (
     <> 
     
@@ -8,4 +8,4 @@ const MainLayout = () => {
   )
 }
 
-export default MainLayout;
+export default MainSidebar;
