@@ -4,7 +4,7 @@ import {menuDisplayData} from '../../data/menuDisplayData.js';
 const FirstBLayer = () => {
   return (
     
-<article className="relative">
+<article className="relative mx-auto">
   <h3 className='md:px-8 font-montserrat font-bold text-[28px]'>Menu Highlights</h3>
   <div className="bg-beige-100 py-8 px-2 md:px-8">
     <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
