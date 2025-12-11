@@ -44,7 +44,7 @@ const FirstCLayer = () => {
       `}</style>
       <section className="headi flex flex-col lg:flex-row min-h-[600px] lg:min-h-[700px] bg-gradient-to-br from-amber-50 via-white to-amber-50 overflow-hidden">
         <article className="left flex-1 p-6 lg:p-12 flex flex-col justify-center">
-          <div className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border border-amber-100/50 max-w-md mx-auto lg:mx-0 animate-fadeInUp">
+          <div className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border border-amber-100/50 max-w-md mx-auto lg:mx-0 min-w-[280px] animate-fadeInUp">
             <h2 className="text-3xl lg:text-4xl font-serif font-bold mb-8 text-center lg:text-left bg-gradient-to-r from-amber-600 via-orange-600 to-brown-600 bg-clip-text text-transparent animate-fadeInUp">
               Espresso Creations
             </h2>
@@ -79,7 +79,7 @@ const FirstCLayer = () => {
             </div>
           </div>
         </article>
-        <article className=" w-fit h-fit rounded-4xl my-auto right flex-1 relative overflow-hidden">
+        <article className=" w-fit h-fit rounded-4xl my-auto right flex-1 relative overflow-hidden lg:min-h-[600px] lg:max-h-[800px]">
           <img
             src="CoffeeImg1.jpeg" // Replace with actual image URL
             alt="Espresso Creations"
@@ -94,7 +94,6 @@ const FirstCLayer = () => {
 };
 
 export default FirstCLayer;
-
 
 
 

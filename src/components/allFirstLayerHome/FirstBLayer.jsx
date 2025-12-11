@@ -1,7 +1,6 @@
 import React from 'react'
 import {menuDisplayData} from '../../data/menuDisplayData.js';
 
-
 const FirstBLayer = () => {
   return (
     
@@ -12,7 +11,7 @@ const FirstBLayer = () => {
       {menuDisplayData.map(({ id, img, title, desc }) => (
         <div
           key={id}
-          className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 min-h-80 flex flex-col"
+          className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 min-h-80 flex flex-col min-w-[280px]"
         >
           <div className="relative flex-1 z-10"> {/* Image container stretches to fill */}
             <img

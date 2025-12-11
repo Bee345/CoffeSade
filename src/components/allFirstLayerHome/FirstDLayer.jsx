@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {cupCakes} from '../../data/cupCakes.js';
 const FirstDLayer = () => {
     // Icon mapping for drink-specific emojis
@@ -42,7 +42,7 @@ const FirstDLayer = () => {
         .stagger-8 { animation-delay: 0.8s; }
       `}</style>
       <section className="headi flex flex-col lg:flex-row min-h-[600px] lg:min-h-[700px] bg-gradient-to-br from-amber-50 via-white to-amber-50 overflow-hidden">
-        <article className=" w-fit h-fit rounded-4xl my-auto right flex-1 relative overflow-hidden">
+        <article className=" w-fit h-fit rounded-4xl my-auto right flex-1 relative overflow-hidden lg:min-h-[600px] lg:max-h-[800px]">
           <img
             src="CoffeeImg2.jpeg" // Replace with actual image URL
             alt="Espresso Creations"
@@ -52,7 +52,7 @@ const FirstDLayer = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-amber-900/10 via-transparent to-brown-900/10"></div>
         </article>
         <article className="left flex-1 p-6 lg:p-8 flex flex-col justify-center">
-          <div className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border border-amber-100/50 max-w-lg mx-auto lg:mx-0 animate-fadeInUp w-full">
+          <div className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border border-amber-100/50 max-w-lg mx-auto lg:mx-0 animate-fadeInUp w-full min-w-[280px]">
             <h2 className="text-3xl lg:text-4xl font-serif font-bold mb-8 text-center lg:text-left bg-gradient-to-r from-amber-600 via-orange-600 to-brown-600 bg-clip-text text-transparent animate-fadeInUp leading-tight">
               Signature Cupcakes
             </h2>
