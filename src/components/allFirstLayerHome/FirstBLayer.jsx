@@ -4,9 +4,9 @@ import {menuDisplayData} from '../../data/menuDisplayData.js';
 const FirstBLayer = () => {
   return (
     
-<article className="relative mx-auto">
+<article className="relative">
   <h3 className='md:px-8 font-montserrat font-bold text-[28px]'>Menu Highlights</h3>
-  <div className="bg-beige-100 py-8 px-1 border-4 md:px-8">
+  <div className="bg-beige-100 py-8 px-1 md:px-8">
     <div className="max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
       {menuDisplayData.map(({ id, img, title, desc }) => (
         <div
