@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom'; // Added for navigation on button click
 import { menuData } from "../../data/menuData";
 import {
   getFallbackItemImage,
@@ -12,6 +13,7 @@ const FirstALayer = () => {
   const [visibleCount, setVisibleCount] = useState(6);
   const [selectedItem, setSelectedItem] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate(); // Hook for redirecting to signup
 
   // Simulate loading effect
   useEffect(() => {
@@ -47,6 +49,11 @@ const FirstALayer = () => {
 
   // Pagination
   const visibleItems = filteredItems.slice(0, visibleCount);
+
+  // Function to handle Add to Cart - Redirects to signup for public users
+  const handleAddToCart = () => {
+    navigate('/signup'); // Redirect to signup page
+  };
 
   // Function to get tag color - Updated with warm amber/orange/brown tones inspired by example
   const getTagColor = (tag) => {
@@ -211,7 +218,13 @@ const FirstALayer = () => {
                       <p className="text-white/90 font-semibold text-base sm:text-lg">
                         {item.price}
                       </p>
-                      <button className="px-4 sm:px-6 py-1.5 sm:py-2 rounded-lg bg-amber-500 text-white hover:bg-amber-600 transition-colors duration-300 font-semibold text-sm">
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent modal open on button click
+                          handleAddToCart();
+                        }}
+                        className="px-4 sm:px-6 py-1.5 sm:py-2 rounded-lg bg-amber-500 text-white hover:bg-amber-600 transition-colors duration-300 font-semibold text-sm"
+                      >
                         Add to Cart
                       </button>
                     </div>

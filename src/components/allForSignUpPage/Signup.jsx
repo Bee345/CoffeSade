@@ -77,11 +77,10 @@ const AuthPage = () => {
     users.push(newUser);
     localStorage.setItem("users", JSON.stringify(users));
 
-    setSuccess("Account created successfully! Redirecting to login...");
+    setSuccess("Account created successfully! Redirecting to your dashboard...");
     setTimeout(() => {
-      setIsSignup(false); // Switch to login
-      setSuccess("");
-      setFormData({}); // Reset form
+      localStorage.setItem("currentUser", JSON.stringify(newUser)); // Auto-login after signup
+      navigate("/app"); // Redirect to MainLayout-wrapped route (e.g., user dashboard/home)
     }, 1500);
   };
 
@@ -111,7 +110,7 @@ const AuthPage = () => {
     localStorage.setItem("currentUser", JSON.stringify(user));
     setSuccess("Logged in successfully! Redirecting...");
     setTimeout(() => {
-      navigate("/menu"); // Redirect to menu or dashboard; adjust route as needed
+      navigate("/app"); // Redirect to MainLayout-wrapped route (e.g., user dashboard/home)
     }, 1500);
   };
 
