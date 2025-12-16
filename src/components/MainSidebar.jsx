@@ -39,7 +39,7 @@ const MainSidebar = ({ isOpen, onClose }) => {
         </button>
 
         {/* Sidebar Content */}
-        <div className="flex flex-col h-full pt-16 lg:pt-0 px-4 py-4 overflow-y-auto">
+        <div className="flex flex-col h-full pt-16 lg:pt-0 px-4 py-8 overflow-y-auto">
           {/* Navigation Links - Consistent dark hovers */}
           <div className="space-y-1 flex-1">
             <Link
