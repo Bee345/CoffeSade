@@ -23,7 +23,7 @@ const MainHeader = ({ onToggleSidebar }) => { // Pass onToggleSidebar prop for p
           className="p-1 sm:p-2 text-[#ede6df] hover:text-amber-300 dark:hover:text-amber-400 transition-colors duration-200"
           aria-label="Toggle sidebar"
         >
-          <Menu size={20} className="sm:size-24" />
+          <Menu size={10} className="sm:size-24" />
         </button>
         
         {/* User Profile */}

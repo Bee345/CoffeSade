@@ -37,7 +37,7 @@ const MainLayout = () => {
       <MainSidebar 
         isOpen={isOpen} 
         onClose={() => setIsOpen(false)} 
-        className="z-40 top-[80px] lg:top-[80px] h-[calc(100vh-80px-200px)] lg:h-[calc(100vh-80px)]" 
+        className="z-30 top-[80px] lg:top-[80px] h-[calc(100vh-80px-200px)] lg:h-[calc(100vh-80px)]" 
       />
 
       {/* Main Content - Adjust for sidebar and footer */}
@@ -46,7 +46,7 @@ const MainLayout = () => {
       </main>
 
       {/* Footer - Full width, bottom */}
-      <MainFooter />
+      <MainFooter  className="z-40"/>
     </>
   )
 }
