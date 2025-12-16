@@ -8,7 +8,7 @@ import { Linkedin } from "lucide-react";
 const MainFooter = () => {
   return (
     <> 
-    <footer className='w-[100%] h-fit bg-[#455238] dark:bg-gray-900 px-5 py-4 sm:py-6 lg:py-12 overflow-x-hidden'>
+    <footer className='w-[100%] z-40 h-fit bg-[#455238] dark:bg-gray-900 px-5 py-4 sm:py-6 lg:py-12 overflow-x-hidden'>
           <section className="w-full flex flex-col items-center lg:flex-row lg:gap-5 lg:px-10 justify-between max-w-[2000px] mx-auto"> 
             <article className="flex flex-col w-full sm:w-fit px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
               <div className="mb-4 sm:mb-10 flex justify-between items-center rounded-md text-lg sm:text-xl lg:text-2xl">
@@ -59,5 +59,6 @@ const MainFooter = () => {
     </>
   )
 }
+
 
 export default MainFooter;

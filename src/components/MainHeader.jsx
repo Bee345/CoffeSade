@@ -43,7 +43,7 @@ const MainHeader = ({ onToggleSidebar }) => { // Pass onToggleSidebar prop for p
           className="p-1 sm:p-2 text-[#ede6df] hover:text-amber-300 dark:hover:text-amber-400 transition-colors duration-200 relative"
           aria-label="View cart"
         >
-          <ShoppingCart size={15} className="sm:size-24" />
+          <ShoppingCart size={10} className="sm:size-24 size-20" />
           {/* Optional: Badge for cart count */}
           <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-xs flex items-center justify-center text-white">0</span>
         </Link>
@@ -54,7 +54,7 @@ const MainHeader = ({ onToggleSidebar }) => { // Pass onToggleSidebar prop for p
           className="p-1 sm:p-2 text-[#ede6df] hover:text-amber-300 dark:hover:text-amber-400 transition-colors duration-200"
           aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
         >
-          {isDarkMode ? <Sun size={20} className="sm:size-24" /> : <Moon size={20} className="sm:size-24" />}
+          {isDarkMode ? <Sun size={10} className="sm:size-24 size-20" /> : <Moon size={10} className="sm:size-24 size-20" />}
         </button>
       </div>
     </header>

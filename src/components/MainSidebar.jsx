@@ -25,7 +25,7 @@ const MainSidebar = ({ isOpen, onClose }) => {
 
       {/* Sidebar - Full dark/light mode support, thinner width */}
       <nav
-        className={`fixed left-0 top-0 h-full w-48 lg:w-64 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 shadow-lg dark:shadow-gray-800/50 z-40 transform transition-transform duration-300 ease-in-out ${
+        className={`fixed left-0 top-0 h-full w-48 lg:w-64 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 shadow-lg dark:shadow-gray-800/50 z-30 transform transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         } lg:translate-x-0`}
       >

@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Assuming React Router for navigation; install if needed: npm i react-router-dom
 
 // Placeholder background image URL (coffee-themed from Unsplash)
 const BACKGROUND_IMAGE = "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1920&h=1080&fit=crop";
+
+// Utility function for safe storage (SSR-proof: skips if no window/localStorage)
+const safeLocalStorage = (key, value) => {
+  if (typeof window === 'undefined' || !window.localStorage) return null;
+  if (value === undefined) return window.localStorage.getItem(key);
+  window.localStorage.setItem(key, JSON.stringify(value));
+};
 
 const AuthPage = () => {
   const [isSignup, setIsSignup] = useState(true); // Toggle between signup/login
@@ -21,6 +28,17 @@ const AuthPage = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
+
+  // Test useEffect for storage (runs on mount; logs to console if works/blocked)
+  useEffect(() => {
+    try {
+      safeLocalStorage('test', 'ok');
+      console.log('Storage works!');
+      safeLocalStorage('test'); // Remove test item
+    } catch (err) {
+      console.error('Storage blocked:', err.message);
+    }
+  }, []);
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -65,21 +83,21 @@ const AuthPage = () => {
       return;
     }
 
-    // Check if email already exists
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    // Check if email already exists (using safeLocalStorage)
+    const users = JSON.parse(safeLocalStorage("users") || "[]");
     if (users.find(u => u.email === formData.email)) {
       setError("An account with this email already exists.");
       return;
     }
 
-    // Store in localStorage (array of users)
+    // Store in localStorage (array of users) using safeLocalStorage
     const newUser = { ...formData, id: Date.now() };
     users.push(newUser);
-    localStorage.setItem("users", JSON.stringify(users));
+    safeLocalStorage("users", users);
 
     setSuccess("Account created successfully! Redirecting to your dashboard...");
     setTimeout(() => {
-      localStorage.setItem("currentUser", JSON.stringify(newUser)); // Auto-login after signup
+      safeLocalStorage("currentUser", newUser); // Auto-login after signup
       navigate("/app"); // Redirect to MainLayout-wrapped route (e.g., user dashboard/home)
     }, 1500);
   };
@@ -98,7 +116,8 @@ const AuthPage = () => {
       return;
     }
 
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    // Fetch users using safeLocalStorage
+    const users = JSON.parse(safeLocalStorage("users") || "[]");
     const user = users.find(u => u.email === formData.email && u.password === formData.password);
 
     if (!user) {
@@ -106,8 +125,8 @@ const AuthPage = () => {
       return;
     }
 
-    // Simulate login (store user in localStorage/session)
-    localStorage.setItem("currentUser", JSON.stringify(user));
+    // Simulate login (store user in localStorage/session) using safeLocalStorage
+    safeLocalStorage("currentUser", user);
     setSuccess("Logged in successfully! Redirecting...");
     setTimeout(() => {
       navigate("/app"); // Redirect to MainLayout-wrapped route (e.g., user dashboard/home)
