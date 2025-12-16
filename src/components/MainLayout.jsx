@@ -9,6 +9,17 @@ const MainLayout = () => {
   const navigate = useNavigate();
   const currentUser = localStorage.getItem('currentUser');
 
+  // Set sidebar open by default on PC screens (lg+)
+  useEffect(() => {
+    const handleResize = () => {
+      setIsOpen(window.innerWidth >= 1024); // lg breakpoint
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   useEffect(() => {
     if (!currentUser) {
       navigate('/signup'); // Redirect unauth to signup
@@ -20,13 +31,17 @@ const MainLayout = () => {
   return (
     <> 
       {/* Header - Fixed top, full width, highest z-index */}
-      <MainHeader isOpen={isOpen} setIsOpen={setIsOpen} className="z-50" />
+      <MainHeader onToggleSidebar={() => setIsOpen(!isOpen)} className="z-50" />
 
-      {/* Sidebar - Fixed left, slides in/out with z-index */}
-      <MainSidebar isOpen={isOpen} onClose={() => setIsOpen(false)} className="z-40" />
+      {/* Sidebar - Fixed left, slides in/out with z-index, height between header/footer */}
+      <MainSidebar 
+        isOpen={isOpen} 
+        onClose={() => setIsOpen(false)} 
+        className="z-40 top-[80px] lg:top-[80px] h-[calc(100vh-80px-200px)] lg:h-[calc(100vh-80px)]" 
+      />
 
-      {/* Main Content - No shift on mobile; overlay handles blocking */}
-      <main className="transition-all duration-500 ease-in-out min-h-screen pt-16 lg:ml-80">
+      {/* Main Content - Adjust for sidebar and footer */}
+      <main className={`transition-all duration-500 ease-in-out min-h-screen pt-20 lg:pt-20 ${isOpen ? 'lg:ml-64' : 'lg:ml-80'} lg:pb-52`}>
         <Outlet />
       </main>
 
