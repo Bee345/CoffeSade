@@ -1,54 +1,45 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import MainHeader from './MainHeader.jsx';
-import MainFooter from './MainFooter.jsx';
-import MainSidebar from './MainSidebar.jsx';
+import MainHeader from './MainHeader';
+import MainSidebar from './MainSidebar';
+import MainFooter from './MainFooter';
 
 const MainLayout = () => {
-  const [isOpen, setIsOpen] = useState(false); // Sidebar toggle state
+  const [isSidebarOpen, setIsSidebarOpen] = useState(
+    window.innerWidth >= 768 // md+
+  );
+
   const navigate = useNavigate();
   const currentUser = localStorage.getItem('currentUser');
 
-  // Set sidebar open by default on PC screens (lg+)
   useEffect(() => {
-    const handleResize = () => {
-      setIsOpen(window.innerWidth >= 1024); // lg breakpoint
-    };
-
-    handleResize(); // Initial check
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  useEffect(() => {
-    if (!currentUser) {
-      navigate('/signup'); // Redirect unauth to signup
-    }
+    if (!currentUser) navigate('/signup');
   }, [currentUser, navigate]);
 
-  if (!currentUser) return <div className="flex items-center justify-center min-h-screen">Loading...</div>; // Or spinner
+  if (!currentUser) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
 
   return (
-    <> 
-      {/* Header - Fixed top, full width, highest z-index */}
-      <MainHeader onToggleSidebar={() => setIsOpen(!isOpen)} className="z-50" />
+    <>
+     <div className="overflow-x-hidden">
+  <MainHeader onToggleSidebar={() => setIsSidebarOpen(p => !p)} />
+  <MainSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
-      {/* Sidebar - Fixed left, slides in/out with z-index, height between header/footer */}
-      <MainSidebar 
-        isOpen={isOpen} 
-        onClose={() => setIsOpen(false)} 
-        className="z-30 top-[80px] lg:top-[80px] h-[calc(100vh-80px-200px)] lg:h-[calc(100vh-80px)]" 
-      />
+  <main
+    className={`
+      pt-20 min-h-screen
+      transition-transform duration-300 ease-in-out
+      ${isSidebarOpen ? 'translate-x-64' : 'translate-x-0'}
+    `}
+  >
+    <Outlet />
+    {/* <MainFooter /> */}
+  </main>
+</div>
 
-      {/* Main Content - Adjust for sidebar and footer */}
-      <main className={`transition-all duration-500 ease-in-out min-h-screen pt-20 lg:pt-20 ${isOpen ? 'lg:ml-64' : 'lg:ml-80'} lg:pb-52`}>
-        <Outlet />
-      </main>
-
-      {/* Footer - Full width, bottom */}
-      <MainFooter  className="z-40"/>
     </>
-  )
-}
+  );
+};
 
 export default MainLayout;
