@@ -1,8 +1,12 @@
 import React from 'react'
+import MainHolder from '../../components/allAboutUsers/allForDashboard/MainHolder'
+
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <> 
+    <MainHolder />
+    </>
   )
 }
 

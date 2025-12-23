@@ -1,0 +1,101 @@
+Folder PATH listing
+Volume serial number is E4D1-88CB
+C:.
+¦   App.css
+¦   App.jsx
+¦   CoffeeSade_tree1.txt
+¦   index.css
+¦   main.jsx
+¦   
++---assets
+¦       react.svg
+¦       
++---components
+¦   ¦   AllForAbout.jsx
+¦   ¦   AllForContact.jsx
+¦   ¦   AllForGallery.jsx
+¦   ¦   AllForLocation.jsx
+¦   ¦   AllForMenu.jsx
+¦   ¦   AllForReviews.jsx
+¦   ¦   AllForSignUp.jsx
+¦   ¦   Banner.jsx
+¦   ¦   FirstMainLayer.jsx
+¦   ¦   LFooter.jsx
+¦   ¦   LSHeader.jsx
+¦   ¦   MainFooter.jsx
+¦   ¦   MainHeader.jsx
+¦   ¦   MainLayout.jsx
+¦   ¦   MainSidebar.jsx
+¦   ¦   WelcomeLayout.jsx
+¦   ¦   
+¦   +---allAboutUsers
+¦   ¦   +---allForBrowseMenu
+¦   ¦   +---allForDashboard
+¦   ¦           MainHolder.jsx
+¦   ¦           
+¦   +---allFirstLayerHome
+¦   ¦       FirstALayer.jsx
+¦   ¦       FirstBLayer.jsx
+¦   ¦       FirstCLayer.jsx
+¦   ¦       FirstDLayer.jsx
+¦   ¦       FirstELayer.jsx
+¦   ¦       
+¦   +---allForAboutPage
+¦   ¦       BannerAbout.jsx
+¦   ¦       FirstALayer.jsx
+¦   ¦       
+¦   +---allForContactPage
+¦   ¦       ContactBanner.jsx
+¦   ¦       FirstALayer.jsx
+¦   ¦       
+¦   +---allForGalleryPage
+¦   ¦       FirstALayer.jsx
+¦   ¦       GalleryBanner.jsx
+¦   ¦       
+¦   +---allForLocationPage
+¦   ¦       FirstALayer.jsx
+¦   ¦       LocationBanner.jsx
+¦   ¦       
+¦   +---allForMenuPage
+¦   ¦       FirstALayer.jsx
+¦   ¦       MenuBanner.jsx
+¦   ¦       
+¦   +---allForReviewsPage
+¦   ¦       FirstALayer.jsx
+¦   ¦       ReviewsBanner.jsx
+¦   ¦       
+¦   +---allForSignUpPage
+¦           Signup.jsx
+¦           
++---data
+¦       contact.js
+¦       cupCakes.js
+¦       esppresso.js
+¦       gallery.js
+¦       iconsData.js
+¦       menuData.js
+¦       menuDisplayData.js
+¦       reviews.js
+¦       toast.js
+¦       
++---pages
+¦   ¦   About.jsx
+¦   ¦   Contact.jsx
+¦   ¦   Gallery.jsx
+¦   ¦   Home.jsx
+¦   ¦   Location.jsx
+¦   ¦   Menu.jsx
+¦   ¦   Reviews.jsx
+¦   ¦   SignUp.jsx
+¦   ¦   
+¦   +---users
+¦           Carts.jsx
+¦           Dashboard.jsx
+¦           Favorites.jsx
+¦           Orders.jsx
+¦           Profile.jsx
+¦           UserMenu.jsx
+¦           
++---utilities
+        fallbackImages.js
+        
