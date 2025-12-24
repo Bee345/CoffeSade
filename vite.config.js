@@ -9,7 +9,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),    // '@' = full src/ path
-      '@root': path.resolve(__dirname, './'),   // '@root' = project root (CoffeeSade/)
+      '%': path.resolve(__dirname, './'),   // '@root' = project root (CoffeeSade/)
     },
   },
 })

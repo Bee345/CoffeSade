@@ -52,12 +52,12 @@ const MainSidebar = ({ isOpen, onClose }) => {
 
         <div className="pt-20 px-4 flex flex-col h-full">
           <nav className="space-y-1 flex-1">
-            <SidebarLink to="/dashboard" icon={<Home size={20} />} label="Dashboard" onClick={onClose} />
-            <SidebarLink to="/menu" icon={<Coffee size={20} />} label="Browse Menu" onClick={onClose} />
-            <SidebarLink to="/orders" icon={<Clock size={20} />} label="Order History" onClick={onClose} />
-            <SidebarLink to="/cart" icon={<ShoppingCart size={20} />} label="Cart" onClick={onClose} />
-            <SidebarLink to="/favorites" icon={<Heart size={20} />} label="Favorites" onClick={onClose} />
-            <SidebarLink to="/profile" icon={<User size={20} />} label="Profile" onClick={onClose} />
+            <SidebarLink to="/app" icon={<Home size={20} />} label="Dashboard" onClick={onClose} />
+            <SidebarLink to="/app/userMenu" icon={<Coffee size={20} />} label="Browse Menu" onClick={onClose} />
+            <SidebarLink to="orders" icon={<Clock size={20} />} label="Order History" onClick={onClose} />
+            <SidebarLink to="cart" icon={<ShoppingCart size={20} />} label="Cart" onClick={onClose} />
+            <SidebarLink to="favorites" icon={<Heart size={20} />} label="Favorites" onClick={onClose} />
+            <SidebarLink to="profile" icon={<User size={20} />} label="Profile" onClick={onClose} />
           </nav>
 
           <div className="border-t border-gray-200 dark:border-gray-700 pt-4">

@@ -126,11 +126,11 @@ const MainHolder = () => {
           transition={{ delay: 0.9 }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
         >
-          <Link to="/menu" className="block p-6 bg-white rounded-xl text-center shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-200">
+          <Link to="userMenu" className="block p-6 bg-white rounded-xl text-center shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-200">
             <Coffee className="mx-auto mb-2 text-2xl text-amber-500" />
             <h3 className="font-semibold text-gray-800">Browse Menu</h3>
           </Link>
-          <Link to="/cart" className="block p-6 bg-white rounded-xl text-center shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-200">
+          <Link to="cart" className="block p-6 bg-white rounded-xl text-center shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-200">
             <ShoppingCart className="mx-auto mb-2 text-2xl text-amber-500" />
             <h3 className="font-semibold text-gray-800">View Cart</h3>
           </Link>
@@ -138,7 +138,7 @@ const MainHolder = () => {
             <Clock className="mx-auto mb-2 text-2xl text-amber-500" />
             <h3 className="font-semibold text-gray-800">Reorder Last</h3>
           </button>
-          <Link to="/profile" className="block p-6 bg-white rounded-xl text-center shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-200">
+          <Link to="profile" className="block p-6 bg-white rounded-xl text-center shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-200">
             <User className="mx-auto mb-2 text-2xl text-amber-500" />
             <h3 className="font-semibold text-gray-800">Profile</h3>
           </Link>

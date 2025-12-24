@@ -1,4 +1,3 @@
-// BrowserRouter as
 import React from 'react'
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
@@ -42,12 +41,12 @@ function App() {
 
       {/* Protected User Routes under MainLayout */}
       <Route path="/app" element={<MainLayout />}>
-        <Route index element={<Dashboard />} /> {/* Default: /app -> Dashboard */}
-        <Route path="menu" element={<UserMenu />} />
-        <Route path="orders" element={<Orders />} />
-        <Route path="cart" element={<Cart />} />
-        <Route path="favorites" element={<Favorites />} />
-        <Route path="profile" element={<Profile />} />
+        <Route index element={<Dashboard />} /> {/* /app → Dashboard */}
+        <Route path="userMenu" element={<UserMenu />} /> {/* /app/userMenu → Browse Menu */}
+        <Route path="orders" element={<Orders />} /> {/* /app/orders */}
+        <Route path="cart" element={<Cart />} /> {/* /app/cart */}
+        <Route path="favorites" element={<Favorites />} /> {/* /app/favorites */}
+        <Route path="profile" element={<Profile />} /> {/* /app/profile */}
         {/* Add more as needed, e.g., <Route path="settings" element={<Settings />} /> */}
       </Route>
     </Routes>
