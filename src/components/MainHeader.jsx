@@ -1,9 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, ShoppingCart, User, Sun, Moon } from 'lucide-react'; // lucide-react icons
+import { useSelector } from 'react-redux'; // For cart quantity
 
 const MainHeader = ({ onToggleSidebar }) => { // Pass onToggleSidebar prop for parent to handle sidebar state
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null); // State for user data
+
+  // Fetch user from localStorage on mount
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("currentUser") || "{}");
+    setCurrentUser(user);
+  }, []);
+
+  // Select totalQuantity from Redux cart
+  const totalQuantity = useSelector((state) => state.cart.totalQuantity || 0);
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
@@ -31,7 +42,9 @@ const MainHeader = ({ onToggleSidebar }) => { // Pass onToggleSidebar prop for p
           <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-amber-400 flex items-center justify-center overflow-hidden">
             <User size={16} className="text-white" /> {/* Placeholder; replace with <img src={userImg} /> */}
           </div>
-          <h2 className="text-sm sm:text-base lg:text-lg font-medium truncate">Welcome, User</h2>
+          <h2 className="text-sm sm:text-base lg:text-lg font-medium truncate">
+            Welcome, {currentUser ? currentUser.username : 'User'}
+          </h2>
         </div>
       </div>
 
@@ -39,13 +52,17 @@ const MainHeader = ({ onToggleSidebar }) => { // Pass onToggleSidebar prop for p
       <div className="flex items-center gap-2 sm:gap-3">
         {/* Cart Icon */}
         <Link
-          to="/cart"
+          to="/app/cart"
           className="p-1 sm:p-2 text-[#ede6df] hover:text-amber-300 dark:hover:text-amber-400 transition-colors duration-200 relative"
           aria-label="View cart"
         >
           <ShoppingCart size={20} className="sm:size-28 md:size-10" />
-          {/* Optional: Badge for cart count */}
-          <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-xs flex items-center justify-center text-white">0</span>
+          {/* Optional: Dynamic Badge for cart count from Redux */}
+          {totalQuantity > 0 && (
+            <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-xs flex items-center justify-center text-white">
+              {totalQuantity}
+            </span>
+          )}
         </Link>
 
         {/* Theme Toggle */}

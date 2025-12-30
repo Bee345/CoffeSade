@@ -9,6 +9,7 @@ import Dashboard from './pages/users/Dashboard.jsx';
 import UserMenu from './pages/users/UserMenu.jsx';
 import Orders from './pages/users/Orders.jsx';
 import Cart from './pages/users/Carts.jsx';
+import UserCheckout from './pages/users/Checkout.jsx';
 import Favorites from './pages/users/Favorites.jsx';
 import Profile from './pages/users/Profile.jsx';
 import Home from './pages/Home.jsx';
@@ -45,6 +46,7 @@ function App() {
         <Route path="userMenu" element={<UserMenu />} /> {/* /app/userMenu → Browse Menu */}
         <Route path="orders" element={<Orders />} /> {/* /app/orders */}
         <Route path="cart" element={<Cart />} /> {/* /app/cart */}
+        <Route path="checkout" element={<UserCheckout />} /> {/* /app/checkout */}
         <Route path="favorites" element={<Favorites />} /> {/* /app/favorites */}
         <Route path="profile" element={<Profile />} /> {/* /app/profile */}
         {/* Add more as needed, e.g., <Route path="settings" element={<Settings />} /> */}

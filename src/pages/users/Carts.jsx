@@ -1,8 +1,12 @@
 import React from 'react'
+import UserCart from '../../components/allAboutUsers/allForCart/UserCart'
+
 
 const Carts = () => {
   return (
-    <div>Carts</div>
+    <> 
+    <UserCart />
+    </>
   )
 }
 
