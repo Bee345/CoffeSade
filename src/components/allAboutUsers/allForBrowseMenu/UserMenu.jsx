@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react"; // Removed useEffect
 import Card from "../../Card.jsx";
 import { menuData } from "../../../data/menuData.js";
 import { espressoData } from "../../../data/esppresso.js";
@@ -8,12 +8,12 @@ import { Search, Filter } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 /* ✅ Redux */
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux"; // Added useSelector
 import { addToCart } from "../../../features/cart/cartSlice";
 
 const UserMenu = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch(); // ✅ Redux dispatcher
+  const dispatch = useDispatch();
 
   const [activeCategory, setActiveCategory] = useState("Espresso Creations");
   const [searchTerm, setSearchTerm] = useState("");
@@ -25,23 +25,8 @@ const UserMenu = () => {
     dietary: [],
   });
 
-  const [favorites, setFavorites] = useState([]);
-
-  /* Load favorites */
-  useEffect(() => {
-    const savedFavorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    setFavorites(savedFavorites);
-  }, []);
-
-  const toggleFavorite = (itemId) => {
-    const isFavorite = favorites.includes(itemId);
-    const updatedFavorites = isFavorite
-      ? favorites.filter(id => id !== itemId)
-      : [...favorites, itemId];
-
-    setFavorites(updatedFavorites);
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-  };
+  // ✅ Unified: Get favorites from Redux (array of objects)
+  const favorites = useSelector((state) => state.favorites || []);
 
   /* Categories */
   const categories = {
@@ -187,46 +172,47 @@ const UserMenu = () => {
         </div>
       </section>
 
-
-{/* Categories Switcher */}
-<section className="mb-8">
-  <div className="flex overflow-x-auto gap-4 pb-3 snap-x snap-mandatory">
-    {Object.keys(categories).map((category) => (
-      <button
-        key={category}
-        onClick={() => setActiveCategory(category)}
-        className={`flex-shrink-0 px-6 py-3 rounded-full whitespace-nowrap transition-all ${
-          activeCategory === category
-            ? "bg-amber-500 text-white shadow-md"
-            : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-100"
-        }`}
-      >
-        {category}
-      </button>
-    ))}
-  </div>
-</section>
-
+      {/* Categories Switcher */}
+      <section className="mb-8">
+        <div className="flex overflow-x-auto gap-4 pb-3 snap-x snap-mandatory">
+          {Object.keys(categories).map((category) => (
+            <button
+              key={category}
+              onClick={() => setActiveCategory(category)}
+              className={`flex-shrink-0 px-6 py-3 rounded-full whitespace-nowrap transition-all ${
+                activeCategory === category
+                  ? "bg-amber-500 text-white shadow-md"
+                  : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-100"
+              }`}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+      </section>
 
       {/* Items */}
       <section className="max-w-6xl mx-auto">
         {items.length ? (
           <div className="columns-2 md:columns-3 gap-6 space-y-6">
-            {items.map(item => (
-              <Card
-                key={item.id}
-                image={item.image}
-                name={item.name}
-                description={item.description}
-                price={item.price}
-                tags={item.tags}
-                onAddToCart={() => handleAddToCart(item)}
-                upsell={item.upsell}
-                isFavorite={favorites.includes(item.id)}
-                onToggleFavorite={() => toggleFavorite(item.id)}
-                isPopular={item.isPopular}
-              />
-            ))}
+            {items.map(item => {
+              // ✅ Per-item favorite check from Redux
+              const isFavorite = favorites.some(fav => fav.id === item.id);
+              return (
+                <Card
+                  key={item.id}
+                  image={item.image}
+                  name={item.name}
+                  description={item.description} // Fixed: was 'desc' in Card, but passing 'description'
+                  price={item.price}
+                  tags={item.tags}
+                  onAddToCart={() => handleAddToCart(item)}
+                  upsell={item.upsell}
+                  id={item.id} // Ensure ID is passed
+                  isPopular={item.isPopular}
+                />
+              );
+            })}
           </div>
         ) : (
           <p className="text-center text-gray-500">No items found</p>

@@ -134,10 +134,11 @@ const MainHolder = () => {
             <ShoppingCart className="mx-auto mb-2 text-2xl text-amber-500" />
             <h3 className="font-semibold text-gray-800">View Cart</h3>
           </Link>
-          <button onClick={() => {/* Mock reorder */ navigate("/orders"); }} className="p-6 bg-white cursor-pointer rounded-xl text-center shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-200">
+          <Link to="ordersHistory" className="block p-6 bg-white rounded-xl text-center shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-200">
             <Clock className="mx-auto mb-2 text-2xl text-amber-500" />
-            <h3 className="font-semibold text-gray-800">Reorder Last</h3>
-          </button>
+            <h3 className="font-semibold text-gray-800">Reorder last</h3>
+          </Link>
+          
           <Link to="profile" className="block p-6 bg-white rounded-xl text-center shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-200">
             <User className="mx-auto mb-2 text-2xl text-amber-500" />
             <h3 className="font-semibold text-gray-800">Profile</h3>

@@ -58,7 +58,7 @@ const MainSidebar = ({ isOpen, onClose }) => {
           <nav className="space-y-1 flex-1">
             <SidebarLink to="/app" icon={<Home size={20} />} label="Dashboard" onClick={onClose} />
             <SidebarLink to="/app/userMenu" icon={<Coffee size={20} />} label="Browse Menu" onClick={onClose} />
-            <SidebarLink to="/app/orders" icon={<Clock size={20} />} label="Order History" onClick={onClose} />
+            <SidebarLink to="/app/ordersHistory" icon={<Clock size={20} />} label="Order History" onClick={onClose} />
             <SidebarLink to="/app/cart" icon={<ShoppingCart size={20} />} label="Cart" onClick={onClose} />
             <SidebarLink to="/app/checkout" icon={<Receipt size={20} />} label="Checkout" onClick={onClose} />
             <SidebarLink to="/app/favorites" icon={<Heart size={20} />} label="Favorites" onClick={onClose} />

@@ -1,21 +1,24 @@
 import React from "react";
 import { Heart, ShoppingCart } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleFavorite } from "../features/favorite/favoritesSlice";
+import { useNavigate } from "react-router-dom"; // Added for nav
+import { toggleFavorite } from "../features/favorite/favoritesSlice"; // Assuming path is correct
 
 const Card = ({
   image,
   name,
-  desc,
+  description, // Fixed: align with UserMenu data
   price,
   tags = [],
   onAddToCart,
   upsell,
-  id, // 👈 IMPORTANT: item id must be passed
+  id, // Required for toggle
+  isPopular, // Unused but kept
 }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // Added
 
-  const favorites = useSelector(state => state.favorites);
+  const favorites = useSelector(state => state.favorites || []);
   const isFavorite = favorites.some(item => item.id === id);
 
   const handleAddToCart = () => {
@@ -28,15 +31,24 @@ const Card = ({
   };
 
   const handleToggleFavorite = () => {
-    dispatch(
-      toggleFavorite({
-        id,
-        image,
-        name,
-        price,
-        tags,
-      })
-    );
+    const exists = favorites.some(item => item.id === id);
+    const payload = {
+      id,
+      image,
+      name,
+      price, // Fixed: was 'desc' → 'description' but payload uses 'name' etc.
+      tags,
+    };
+
+    dispatch(toggleFavorite(payload));
+
+    // ✅ Navigate only on ADD (new favorite), not remove
+    if (!exists) {
+      console.log(`Added favorite: ${id}, navigating to /app/favorites`); // Debug
+      // navigate("/app/favorites"); // Adjust path if needed (e.g., "/app/favorites")
+    } else {
+      console.log(`Removed favorite: ${id}`); // Debug
+    }
   };
 
   return (
@@ -76,7 +88,7 @@ const Card = ({
       {/* Content */}
       <div className="p-4">
         <h3 className="font-bold text-lg mb-2 font-playfair">{name}</h3>
-        <p className="text-gray-600 text-sm mb-3 line-clamp-2">{desc}</p>
+        <p className="text-gray-600 text-sm mb-3 line-clamp-2">{description}</p> {/* Fixed prop */}
 
         {/* Tags */}
         <div className="flex flex-wrap gap-1 mb-3">
