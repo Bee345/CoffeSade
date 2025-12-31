@@ -4,12 +4,10 @@ import {
   Home, Coffee, Clock, ShoppingCart,
   Heart, User, LogOut, X, Receipt
 } from 'lucide-react';
-import { useSelector } from 'react-redux'; // For cart quantity
+import { useSelector } from 'react-redux';
 
 const MainSidebar = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
-
-  // Select totalQuantity from Redux cart
   const totalQuantity = useSelector((state) => state.cart.totalQuantity || 0);
 
   const handleLogout = () => {
@@ -24,25 +22,21 @@ const MainSidebar = ({ isOpen, onClose }) => {
       <div
         onClick={onClose}
         className={`
-          fixed inset-0 bg-black/50 z-30
-          transition-opacity duration-300
+          fixed inset-0 bg-black/50 z-30 transition-opacity duration-500
           md:hidden
-          ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}
+          ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
         `}
       />
 
       {/* Sidebar */}
       <aside
         className={`
-          fixed top-0 left-0 z-40
-          h-full w-64
+          fixed top-0 left-0 z-40 h-full w-64
           bg-white dark:bg-gray-900
           text-gray-800 dark:text-gray-200
           shadow-lg
-          transition-transform duration-300 ease-in-out
-
+          transform transition-transform duration-500 ease-in-out
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-          md:${isOpen ? 'translate-x-0' : '-translate-x-full'}
         `}
       >
         {/* Close button (mobile only) */}
@@ -59,7 +53,7 @@ const MainSidebar = ({ isOpen, onClose }) => {
             <SidebarLink to="/app" icon={<Home size={20} />} label="Dashboard" onClick={onClose} />
             <SidebarLink to="/app/userMenu" icon={<Coffee size={20} />} label="Browse Menu" onClick={onClose} />
             <SidebarLink to="/app/ordersHistory" icon={<Clock size={20} />} label="Order History" onClick={onClose} />
-            <SidebarLink to="/app/cart" icon={<ShoppingCart size={20} />} label="Cart" onClick={onClose} />
+            <SidebarLink to="/app/cart" icon={<ShoppingCart size={20} />} label="Cart" onClick={onClose} totalQuantity={totalQuantity} />
             <SidebarLink to="/app/checkout" icon={<Receipt size={20} />} label="Checkout" onClick={onClose} />
             <SidebarLink to="/app/favorites" icon={<Heart size={20} />} label="Favorites" onClick={onClose} />
             <SidebarLink to="/app/profile" icon={<User size={20} />} label="Profile" onClick={onClose} />
@@ -68,9 +62,7 @@ const MainSidebar = ({ isOpen, onClose }) => {
           <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
             <button
               onClick={handleLogout}
-              className="flex items-center gap-3 w-full p-4 rounded-lg
-                hover:bg-red-100 dark:hover:bg-red-900
-                text-red-600 dark:text-red-400"
+              className="flex items-center gap-3 w-full p-4 rounded-lg hover:bg-red-100 dark:hover:bg-red-900 text-red-600 dark:text-red-400"
             >
               <LogOut size={20} />
               Logout
@@ -86,12 +78,10 @@ const SidebarLink = ({ to, icon, label, onClick, totalQuantity = 0 }) => (
   <Link
     to={to}
     onClick={onClick}
-    className="flex items-center gap-3 p-4 rounded-lg
-      hover:bg-amber-100 dark:hover:bg-gray-700 relative"
+    className="flex items-center gap-3 p-4 rounded-lg hover:bg-amber-100 dark:hover:bg-gray-700 relative"
   >
     {icon}
     <span>{label}</span>
-    {/* Dynamic Badge for Cart only */}
     {label === "Cart" && totalQuantity > 0 && (
       <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-xs flex items-center justify-center text-white">
         {totalQuantity}
@@ -101,3 +91,4 @@ const SidebarLink = ({ to, icon, label, onClick, totalQuantity = 0 }) => (
 );
 
 export default MainSidebar;
+

@@ -19,3 +19,6 @@
     --color-brown-100: #F3E9DD;
 }
 @custom-variant dark (&:where(.dark, .dark *));
+* {
+  transition: background-color 0.25s ease, color 0.25s ease;
+}

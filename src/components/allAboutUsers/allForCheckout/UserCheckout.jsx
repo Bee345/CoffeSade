@@ -77,7 +77,7 @@ const UserCheckout = () => {
   // Steps
   if (step === 4) { // Confirmation
     return (
-      <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
+      <div className="max-w-md mt-20 mx-auto p-6 bg-white rounded-lg shadow-lg">
         <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
         <h2 className="text-2xl font-bold text-center mb-4">Order Confirmed!</h2>
         <p className="text-center text-gray-600 mb-6">Thank you for your purchase. Order # {Date.now()} placed successfully.</p>
