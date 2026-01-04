@@ -144,7 +144,7 @@ const UserMenu = () => {
           {filterOptions.map((group, i) => (
             <div key={i}>
               <label className="text-xs text-gray-500">{group.group}</label>
-              <div className="flex gap-1">
+              <div className="flex flex-wrap gap-2">
                 {group.options.map(option => (
                   <button
                     key={option}
@@ -165,7 +165,7 @@ const UserMenu = () => {
           ))}
           <button
             onClick={clearFilters}
-            className="ml-auto px-3 py-1 bg-red-500 text-white rounded-full text-xs"
+            className="mt-2 md:ml-auto md:mt-0 px-3 py-1 bg-red-500 text-white rounded-full text-xs"
           >
             Clear
           </button>
