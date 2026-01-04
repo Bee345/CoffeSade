@@ -3,6 +3,11 @@ import { motion } from "framer-motion"; // For fade-ins; install: npm i framer-m
 import { Link, useNavigate } from "react-router-dom"; // For navigation
 import { Coffee, ShoppingCart, Clock, User } from "lucide-react"; // Lucide-React icons
 
+
+
+import image1 from '../../../../public/BrunchToastImage2.jpeg';
+import image2 from '../../../../public/BrunchToastImage3.jpeg';
+import image3 from '../../../../public/CoffeeBanner2.jpeg';
 // Unsplash-style hero image (steaming cup)
 const HERO_IMAGE = "UserCoffeeSade1.jpeg";
 
@@ -14,9 +19,9 @@ const MainHolder = () => {
   const [user, setUser] = useState(null); // From localStorage
   const [weather, setWeather] = useState({ temp: "", condition: "", suggestion: "" }); // Weather data
   const [promos, setPromos] = useState([
-    { id: 1, title: "Tourist Bundle", desc: "Pastries + Coffee for $12", image: "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=300&h=200&fit=crop" },
-    { id: 2, title: "Local Loyalty", desc: "10% off for repeat indigenous customers", image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=300&h=200&fit=crop" },
-    { id: 3, title: "Weekend Special", desc: "Buy 2 Cupcakes, Get 1 Free", image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=300&h=200&fit=crop" },
+    { id: 1, title: "Tourist Bundle", desc: "Pastries + Coffee for $12", image: image1 },
+    { id: 2, title: "Local Loyalty", desc: "10% off for repeat indigenous customers", image: image2 },
+    { id: 3, title: "Weekend Special", desc: "Buy 2 Cupcakes, Get 1 Free", image: image3 },
   ]);
   const [currentPromoIndex, setCurrentPromoIndex] = useState(0); // For carousel
   const navigate = useNavigate();
@@ -107,7 +112,8 @@ const MainHolder = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.6 + index * 0.1 }}
-      className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-200"
+      className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-200 bg-gradient-to-b from-white/900 to-[#F22cE3]/40 backdrop-blur-sm
+dark:bg-[#2A1F1A]"
     >
       <div className="text-3xl mb-3">{stat.icon}</div>
       <h3 className="text-sm font-medium text-gray-600 mb-2">{stat.label}</h3>
@@ -126,22 +132,26 @@ const MainHolder = () => {
           transition={{ delay: 0.9 }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
         >
-          <Link to="userMenu" className="block p-6 bg-white rounded-xl text-center shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-200">
+          <Link to="userMenu" className="block p-6 bg-gradient-to-r from-white/900 to-[#F22cE3]/40 backdrop-blur-sm
+dark:bg-[#2A1F1A] rounded-xl text-center shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-200">
             <Coffee className="mx-auto mb-2 text-2xl text-amber-500" />
-            <h3 className="font-semibold text-gray-800">Browse Menu</h3>
+            <h3 className="font-semibold text-slate-500 dark:text-slate-300">Browse Menu</h3>
           </Link>
-          <Link to="cart" className="block p-6 bg-white rounded-xl text-center shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-200">
+          <Link to="cart" className="block p-6 bg-gradient-to-l from-white/900 to-[#F22cE3]/40 backdrop-blur-sm
+dark:bg-[#2A1F1A] rounded-xl text-center shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-200">
             <ShoppingCart className="mx-auto mb-2 text-2xl text-amber-500" />
-            <h3 className="font-semibold text-gray-800">View Cart</h3>
+            <h3 className="font-semibold text-slate-500 dark:text-slate-300">View Cart</h3>
           </Link>
-          <Link to="ordersHistory" className="block p-6 bg-white rounded-xl text-center shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-200">
+          <Link to="ordersHistory" className="block p-6 bg-gradient-to-r from-white/900 to-[#F22cE3]/40 backdrop-blur-sm
+dark:bg-[#2A1F1A] rounded-xl text-center shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-200">
             <Clock className="mx-auto mb-2 text-2xl text-amber-500" />
-            <h3 className="font-semibold text-gray-800">Reorder last</h3>
+            <h3 className="font-semibold text-slate-500 dark:text-slate-300">Reorder last</h3>
           </Link>
-          
-          <Link to="profile" className="block p-6 bg-white rounded-xl text-center shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-200">
+
+          <Link to="profile" className="block p-6 bg-gradient-to-l from-white/900 to-[#F22cE3]/40 backdrop-blur-sm
+dark:bg-[#2A1F1A] rounded-xl text-center shadow-md hover:shadow-lg transition-shadow duration-300 border border-amber-200">
             <User className="mx-auto mb-2 text-2xl text-amber-500" />
-            <h3 className="font-semibold text-gray-800">Profile</h3>
+            <h3 className="font-semibold text-slate-500 dark:text-slate-300">Profile</h3>
           </Link>
         </motion.div>
       </section>
@@ -170,7 +180,7 @@ const MainHolder = () => {
                 <div className="p-4">
                   <h3 className="font-semibold text-gray-800 mb-2 font-playfair">{promo.title}</h3>
                   <p className="text-gray-600 text-sm">{promo.desc}</p>
-                  <button className="mt-4 w-full py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors">
+                  <button className="mt-4 w-full py-2 bg-amber-500 dark:bg-amber-700 cursor-pointer text-white rounded-lg hover:bg-amber-600 transition-colors">
                     Shop Now
                   </button>
                 </div>

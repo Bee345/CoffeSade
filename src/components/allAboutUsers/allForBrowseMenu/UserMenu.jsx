@@ -91,10 +91,10 @@ const UserMenu = () => {
 
   const filterOptions = [
     { group: "Temperature", options: ["Hot", "Cold"] },
-    { group: "Taste", options: ["Sweet", "Savory"] },
-    { group: "Type", options: ["Tourist Favorites"] },
+    { group: "Type", options: ["Sweet", "Classic" , "Milky", "Nutty", "Tropical", "Healthy", "Brunch", "Protein"] },
+    // { group: "EndType", options: ["Tourist Favorites"] },
     { group: "Price", options: ["$0-10", "$10+"] },
-    { group: "Dietary", options: ["Vegan", "Gluten-Free"] },
+    { group: "Dietary", options: ["Vegan", "Gluten-Free", "Others"] },
   ];
 
   const toggleFilter = (group, option) => {
@@ -122,7 +122,7 @@ const UserMenu = () => {
 
       <button
         onClick={() => navigate("/app")}
-        className="mb-4 px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600"
+        className="mb-4 px-4 py-2 bg-amber-500 dark:bg-amber-700 cursor-pointer text-white rounded-lg hover:bg-amber-600"
       >
         Back to Dashboard
       </button>
@@ -153,7 +153,7 @@ const UserMenu = () => {
                       group.group === "Dietary"
                         ? filters.dietary.includes(option)
                         : filters[group.group.toLowerCase()] === option
-                      ? "bg-amber-500 text-white"
+                      ? "bg-amber-500 dark:bg-amber-700 cursor-pointer  text-white"
                       : "bg-gray-200"
                     }`}
                   >
@@ -181,7 +181,7 @@ const UserMenu = () => {
               onClick={() => setActiveCategory(category)}
               className={`flex-shrink-0 px-6 py-3 rounded-full whitespace-nowrap transition-all ${
                 activeCategory === category
-                  ? "bg-amber-500 text-white shadow-md"
+                  ? "bg-amber-500 dark:bg-amber-700 cursor-pointer text-white shadow-md"
                   : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-100"
               }`}
             >
@@ -226,7 +226,7 @@ const UserMenu = () => {
           </p>
           <button
             onClick={() => handleUpsell(items[0])}
-            className="px-6 py-3 bg-amber-500 text-white rounded-lg"
+            className="px-6 py-3 bg-amber-500 dark:bg-amber-700 cursor-pointer text-white rounded-lg"
           >
             Add Upsell
           </button>

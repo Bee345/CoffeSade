@@ -41,7 +41,8 @@ const MainLayout = () => {
       <main
         className={`
           transition-all duration-500 ease-in-out
-          min-h-screen pt-20 lg:pt-20 lg:pb-52
+          min-h-screen pt-20 lg:pt-20 lg:pb-52 bg-gradient-to-b from-[#F6F1EB] to-[#EDE5DC]
+dark:from-[#1C1C1E] dark:to-[#2A1F1A]
           ${isOpen ? 'lg:ml-64' : 'lg:ml-0'}
         `}
       >

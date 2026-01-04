@@ -52,7 +52,11 @@ const Card = ({
   };
 
   return (
-    <div className="group bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-amber-100">
+    <div className="group bg-gradient-to-r from-white/900 to-[#F22dE3]/40 backdrop-blur-sm
+dark:bg-[#2A1F1A] dark:text-gray-100
+shadow-md hover:shadow-lg transition
+rounded-xl
+ rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-amber-100">
       
       {/* Image */}
       <div className="relative overflow-hidden">
@@ -88,7 +92,7 @@ const Card = ({
       {/* Content */}
       <div className="p-4">
         <h3 className="font-bold text-lg mb-2 font-playfair">{name}</h3>
-        <p className="text-gray-600 text-sm mb-3 line-clamp-2">{description}</p> {/* Fixed prop */}
+        <p className="text-gray-700 dark:text-gray-300 text-sm mb-3 line-clamp-2">{description}</p> {/* Fixed prop */}
 
         {/* Tags */}
         <div className="flex flex-wrap gap-1 mb-3">
@@ -107,7 +111,7 @@ const Card = ({
           <span className="text-xl font-bold text-amber-600">{price}</span>
           <button
             onClick={handleAddToCart}
-            className="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors"
+            className="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-400 active:bg-amber-600 transition-colors dark:bg-amber-700 cursor-pointer dark:hover:bg-amber-400"
           >
             <ShoppingCart size={18} />
           </button>

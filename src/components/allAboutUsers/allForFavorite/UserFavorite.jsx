@@ -34,7 +34,7 @@ const UserFavorites = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="max-w-6xl mx-auto px-4 py-8 bg-[#52e2] dark:bg-[#E3D5C6]">
       <h2 className="text-2xl font-bold mb-6">Your Favorites</h2>
 
       {Object.entries(grouped).map(([group, items]) => (

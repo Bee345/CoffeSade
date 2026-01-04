@@ -16,22 +16,22 @@ function UserCart() {
   };
 
   if (totalQuantity === 0) {
-    return <p className="text-center text-gray-500">Your cart is empty.</p>;
+    return <p className="text-center text-gray-600 dark:text-gray-200">Your cart is empty.</p>;
   }
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Shopping Cart ({totalQuantity} items)</h2>
+    <div className="p-4 bg-[#EDE5DC]  min-h-screen">
+      <h2 className="text-2xl text-gray-700  font-bold mb-4">Shopping Cart ({totalQuantity} items)</h2>
       <ul className="space-y-4">
         {items.map((item) => {
           const numericPrice = parsePrice(item.price); // Safe parse (no replace error)
           const lineTotal = numericPrice * (item.quantity || 0); // Safe multiply, fallback quantity
 
           return (
-            <li key={item.id} className="flex justify-between items-center border p-4 rounded">
+            <li key={item.id} className="flex justify-between items-center border  p-4 rounded">
               <div>
-                <h3 className="font-semibold">{item.name}</h3>
-                <p className="text-sm text-gray-600">
+                <h3 className="font-semibold text-gray-800 ">{item.name}</h3>
+                <p className="text-sm text-gray-600 ">
                   {typeof item.price === 'string' ? item.price : `$${numericPrice.toFixed(2)}`} each
                 </p>
               </div>
@@ -42,7 +42,7 @@ function UserCart() {
                 >
                   -
                 </button>
-                <span>{item.quantity || 0}</span>
+                <span className='text-gray-700 dark:text-gray-200'>{item.quantity || 0}</span>
                 <button
                   onClick={() => dispatch(increaseQuantity({ id: item.id }))}
                   className="bg-green-500 text-white px-2 py-1 rounded"
@@ -55,19 +55,19 @@ function UserCart() {
                 >
                   Remove
                 </button>
-                <p>${lineTotal.toFixed(2)}</p> {/* Safe line total */}
+                <p className='text-gray-700 '>${lineTotal.toFixed(2)}</p> {/* Safe line total */}
               </div>
             </li>
           );
         })}
       </ul>
       <div className="mt-6 text-right">
-        <p className="text-xl font-bold">Total: ${parseFloat(totalPrice || 0).toFixed(2)}</p> {/* Safe grand total */}
+        <p className="text-xl font-bold text-gray-700 ">Total: ${parseFloat(totalPrice || 0).toFixed(2)}</p> {/* Safe grand total */}
         
    {/* Inside the component, after the total div:*/}
     
 
- <p>Total: ${totalPrice.toFixed(2)}</p>:
+ {/* <p>Total: ${totalPrice.toFixed(2)}</p>: */}
 <button
   onClick={() => navigate('/app/checkout')}
   className="bg-blue-500 text-white px-6 py-2 rounded mt-2"

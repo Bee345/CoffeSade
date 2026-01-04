@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { clearCart } from "../../../features/cart/cartSlice"; // Clear cart after order
+import { setSuccessOrder } from "../../../features/orders/orderSlice"; // Save successful order
 import { Truck, CreditCard, CheckCircle, X } from "lucide-react"; // Icons for shipping, payment, confirmation
 
 const UserCheckout = () => {
@@ -10,13 +11,16 @@ const UserCheckout = () => {
   const { items, totalQuantity, totalPrice } = useSelector((state) => state.cart);
   const [user] = useState(() => JSON.parse(localStorage.getItem("currentUser") || "{}")); // Fetch user once
   const [step, setStep] = useState(1); // 1: Review, 2: Shipping, 3: Payment, 4: Confirmation
-  const [shippingAddress, setShippingAddress] = useState(user.address || ""); // Pre-fill from profile
+  const [shippingAddress, setShippingAddress] = useState(typeof user.address === 'string' ? user.address : ""); // Pre-fill from profile
   const [paymentMethod, setPaymentMethod] = useState("card"); // card, paypal, etc.
   const [cardNumber, setCardNumber] = useState("");
   const [expiry, setExpiry] = useState("");
   const [cvv, setCvv] = useState("");
   const [errors, setErrors] = useState({}); // Validation errors
   const [isProcessing, setIsProcessing] = useState(false); // Loading state
+
+  const {successOrder} = useSelector(state => state.orders); // Get last successful order from orders slice
+
 
   // Calculate totals (with mock tax/shipping)
   const subtotal = totalPrice;
@@ -49,23 +53,20 @@ const UserCheckout = () => {
       await new Promise(resolve => setTimeout(resolve, 1000));
 
       // Save order to localStorage (mock)
-      const order = {
-        id: Date.now(),
-        items,
-        subtotal,
-        tax,
-        shipping,
-        total: grandTotal,
-        address: shippingAddress,
-        paymentMethod,
-        date: new Date().toISOString(),
-      };
-      const orders = JSON.parse(localStorage.getItem("orders") || "[]");
-      localStorage.setItem("orders", JSON.stringify([...orders, order]));
-
+      const orderSnapshot = {
+  id: Date.now(),
+  items: [...items],
+  subtotal,
+  tax,
+  shipping,
+  total: grandTotal,
+  address: shippingAddress,
+  paymentMethod,
+  date: new Date().toISOString(),
+};
+dispatch(setSuccessOrder(orderSnapshot)); // Save successful order to Redux
       // Clear cart
       dispatch(clearCart());
-
       setStep(4); // Confirmation
     } catch (err) {
       alert("Order failed—try again.");
@@ -77,12 +78,21 @@ const UserCheckout = () => {
   // Steps
   if (step === 4) { // Confirmation
     return (
-      <div className="max-w-md mt-20 mx-auto p-6 bg-white rounded-lg shadow-lg">
+      <div className="max-w-md mt-50 mx-auto p-6 bg-amber-300 rounded-lg shadow-lg">
         <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
         <h2 className="text-2xl font-bold text-center mb-4">Order Confirmed!</h2>
-        <p className="text-center text-gray-600 mb-6">Thank you for your purchase. Order # {Date.now()} placed successfully.</p>
+        <p className="text-center text-gray-600 mb-6">Thank you for your purchase. Order # {successOrder?.id} placed successfully.</p>
         <div className="space-y-2 text-sm text-gray-600">
-          <p>Total: ${grandTotal.toFixed(2)}</p>
+            <div className="mt-4 space-y-2 text-sm">
+  {successOrder?.items?.map(item => (
+    <div key={item.id} className="flex justify-between">
+      <span>{item.name} x {item.quantity}</span>
+      <span>${((typeof item.price === "number" ? item.price : parseFloat(item.price.replace("$", "")) || 0) * item.quantity).toFixed(2)}</span>
+
+    </div>
+  ))}
+</div>
+          <p>Total: ${successOrder?.total.toFixed(2)}</p>
           <p>Shipping to: {shippingAddress || "Saved Address"}</p>
         </div>
         <button
@@ -96,14 +106,14 @@ const UserCheckout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
+    <div className="min-h-screen  py-8 px-4 bg-[#EDE5DC]">
       <div className="max-w-4xl mx-auto">
         {/* Progress Bar */}
         <div className="flex justify-between mb-8">
           {["Review Cart", "Shipping", "Payment", "Complete"].map((label, idx) => (
             <div key={idx} className="flex-1 text-center">
               <div className={`w-8 h-8 mx-auto rounded-full flex items-center justify-center text-sm font-bold ${
-                step > idx + 1 ? "bg-green-500 text-white" : step === idx + 1 ? "bg-amber-500 text-white" : "bg-gray-200 text-gray-600"
+                step > idx + 1 ? "bg-green-500 text-white " : step === idx + 1 ? "bg-amber-400 dark:bg-amber-700 text-white" : "bg-gray-200 text-gray-600"
               }`}>
                 {idx + 1}
               </div>
@@ -114,11 +124,11 @@ const UserCheckout = () => {
 
         {/* Step 1: Cart Review */}
         {step === 1 && (
-          <div className="bg-white p-6 rounded-lg shadow">
+          <div className="bg-gray-300 dark:bg-slate-200 p-6 rounded-lg shadow">
             <h2 className="text-xl font-bold mb-4">Review Your Cart</h2>
             <ul className="space-y-4 mb-6">
               {items.map((item) => {
-                const numericPrice = typeof item.price === 'number' ? item.price : parseFloat(item.price.replace("$", "")) || 0;
+                const numericPrice = typeof item.price === 'number' ? item.price : item.price?.amount || 0;
                 const lineTotal = numericPrice * item.quantity;
                 return (
                   <li key={item.id} className="flex justify-between items-center border-b py-2">
@@ -139,7 +149,7 @@ const UserCheckout = () => {
             </div>
             <button
               onClick={() => setStep(2)}
-              className="w-full mt-6 bg-amber-500 text-white py-3 rounded-lg hover:bg-amber-600"
+              className="w-full mt-6 bg-amber-400 dark:bg-amber-700 text-white py-3 rounded-lg hover:bg-amber-600"
             >
               Proceed to Shipping
             </button>
@@ -166,7 +176,7 @@ const UserCheckout = () => {
               </button>
               <button
                 onClick={() => setStep(3)}
-                className="flex-1 bg-amber-500 text-white py-3 rounded-lg hover:bg-amber-600"
+                className="flex-1 bg-amber-400 dark:bg-amber-700 text-white py-3 rounded-lg hover:bg-amber-600"
               >
                 Continue to Payment
               </button>
@@ -231,7 +241,7 @@ const UserCheckout = () => {
               <button
                 onClick={handlePlaceOrder}
                 disabled={isProcessing}
-                className="flex-1 bg-amber-500 text-white py-3 rounded-lg hover:bg-amber-600 disabled:opacity-50"
+                className="flex-1 bg-amber-400 dark:bg-amber-700 text-white py-3 rounded-lg hover:bg-amber-600 disabled:opacity-50"
               >
                 {isProcessing ? "Processing..." : `Place Order - $${grandTotal.toFixed(2)}`}
               </button>
@@ -245,3 +255,163 @@ const UserCheckout = () => {
 };
 
 export default UserCheckout;
+
+
+// import React, { useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { useSelector, useDispatch } from "react-redux";
+// import { clearCart } from "../../../features/cart/cartSlice";
+// import { CreditCard, CheckCircle } from "lucide-react";
+
+// const UserCheckout = () => {
+//   const navigate = useNavigate();
+//   const dispatch = useDispatch();
+
+//   const { items, totalQuantity, totalPrice } = useSelector(
+//     (state) => state.cart
+//   );
+
+//   const [user] = useState(() =>
+//     JSON.parse(localStorage.getItem("currentUser") || "{}")
+//   );
+
+//   const [step, setStep] = useState(1);
+//   const [shippingAddress, setShippingAddress] = useState(user.address || "");
+//   const [paymentMethod, setPaymentMethod] = useState("card");
+//   const [cardNumber, setCardNumber] = useState("");
+//   const [expiry, setExpiry] = useState("");
+//   const [cvv, setCvv] = useState("");
+//   const [errors, setErrors] = useState({});
+//   const [isProcessing, setIsProcessing] = useState(false);
+
+//   // ✅ SNAPSHOT ORDER
+//   const [successOrder, setSuccessOrder] = useState(null);
+
+//   /* ------------------ CALCULATIONS ------------------ */
+//   const subtotal = totalPrice;
+//   const tax = subtotal * 0.08;
+//   const shipping = totalQuantity > 0 ? 5.99 : 0;
+//   const grandTotal = subtotal + tax + shipping;
+
+//   /* ------------------ VALIDATION ------------------ */
+//   const validatePayment = () => {
+//     const newErrors = {};
+//     if (paymentMethod === "card") {
+//       if (!cardNumber || cardNumber.length < 16)
+//         newErrors.cardNumber = "Card number must be 16 digits";
+//       if (!expiry || expiry.length < 4)
+//         newErrors.expiry = "Expiry is required";
+//       if (!cvv || cvv.length < 3)
+//         newErrors.cvv = "CVV is required";
+//     }
+//     setErrors(newErrors);
+//     return Object.keys(newErrors).length === 0;
+//   };
+
+//   /* ------------------ PLACE ORDER ------------------ */
+//   const handlePlaceOrder = async () => {
+//     if (!validatePayment()) return;
+
+//     setIsProcessing(true);
+
+//     try {
+//       await new Promise((res) => setTimeout(res, 1000));
+
+//       const orderSnapshot = {
+//         id: Date.now(),
+//         items: [...items],
+//         subtotal,
+//         tax,
+//         shipping,
+//         total: grandTotal,
+//         address: shippingAddress,
+//         paymentMethod,
+//         date: new Date().toISOString(),
+//       };
+
+//       // ✅ SAVE SNAPSHOT
+//       setSuccessOrder(orderSnapshot);
+
+//       // ✅ CLEAR CART AFTER SNAPSHOT
+//       dispatch(clearCart());
+
+//       setStep(4);
+//     } catch (err) {
+//       alert("Order failed");
+//     } finally {
+//       setIsProcessing(false);
+//     }
+//   };
+
+//   /* ------------------ SUCCESS SCREEN ------------------ */
+//   if (step === 4 && successOrder) {
+//     return (
+//       <div className="max-w-md mt-40 mx-auto p-6 bg-amber-300 rounded-lg shadow-lg">
+//         <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+
+//         <h2 className="text-2xl font-bold text-center mb-2">
+//           Order Confirmed
+//         </h2>
+
+//         <p className="text-center text-sm text-gray-700 mb-4">
+//           Order #{successOrder.id}
+//         </p>
+
+//         <div className="bg-white rounded-lg p-4 mb-4">
+//           <h3 className="font-semibold mb-2">Items Purchased</h3>
+//           <ul className="space-y-2 text-sm">
+//             {successOrder.items.map((item) => {
+//               const price =
+//                 typeof item.price === "number"
+//                   ? item.price
+//                   : parseFloat(item.price.replace("$", "")) || 0;
+
+//               return (
+//                 <li key={item.id} className="flex justify-between">
+//                   <span>
+//                     {item.name} × {item.quantity}
+//                   </span>
+//                   <span>${(price * item.quantity).toFixed(2)}</span>
+//                 </li>
+//               );
+//             })}
+//           </ul>
+//         </div>
+
+//         <div className="text-sm space-y-1 text-gray-700">
+//           <p>Subtotal: ${successOrder.subtotal.toFixed(2)}</p>
+//           <p>Tax: ${successOrder.tax.toFixed(2)}</p>
+//           <p>Shipping: ${successOrder.shipping.toFixed(2)}</p>
+//           <p className="font-bold text-lg">
+//             Total Paid: ${successOrder.total.toFixed(2)}
+//           </p>
+//         </div>
+
+//         <p className="mt-3 text-sm text-gray-600">
+//           Shipping to: {successOrder.address}
+//         </p>
+
+//         <button
+//           onClick={() => navigate("/app")}
+//           className="w-full mt-6 bg-amber-500 text-white py-2 rounded-lg hover:bg-amber-600"
+//         >
+//           Back to Dashboard
+//         </button>
+//       </div>
+//     );
+//   }
+
+//   /* ------------------ NORMAL CHECKOUT UI ------------------ */
+//   return (
+//     <div className="min-h-screen py-8 px-4 bg-[#EDE5DC]">
+//       <div className="max-w-4xl mx-auto">
+
+//         {/* STEP 1, 2, 3 UI remains unchanged */}
+//         {/* I intentionally did NOT rewrite what already works */}
+
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default UserCheckout;

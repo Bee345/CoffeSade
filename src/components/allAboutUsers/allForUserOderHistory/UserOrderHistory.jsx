@@ -118,7 +118,7 @@ const UserOrderHistory = () => {
       {error && <p className="text-red-600 mb-4">{error}</p>}
 
       {/* STATS */}
-      <div className="bg-white p-4 rounded mb-6 flex gap-4">
+      <div className="bg-[#EDE5DC]  p-4 rounded mb-6 flex gap-4">
         <Package size={20} />
         <span>Saved ${stats.saved}</span>
         <Coffee size={20} />
@@ -127,11 +127,20 @@ const UserOrderHistory = () => {
 
       {/* ORDERS */}
       {filteredOrders.map((order) => (
-        <div key={order.id} className="bg-white p-4 rounded mb-4 shadow">
+        <div key={order.id} className="bg-[#EDE5DC] p-4 rounded mb-4 shadow">
           <div className="flex justify-between">
             <div>
               <p className="font-bold">{order.date}</p>
-              <p>{order.items}</p>
+              <p>
+  {typeof order.items === "string"
+    ? order.items
+    : (order.items || []).map((item, i) => (
+        <span key={i}>
+          {item.name} x {item.quantity}{i < order.items.length - 1 ? ", " : ""}
+        </span>
+      ))}
+</p>
+
             </div>
             <p>${order.total.toFixed(2)}</p>
           </div>
