@@ -41,7 +41,7 @@ const UserFavorites = () => {
         <section key={group} className="mb-10">
           <h3 className="text-lg font-semibold mb-4">{group}</h3>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {items.map((item) => (
               <div
                 key={item.id}

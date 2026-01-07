@@ -1,91 +1,135 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const initialState = {
-  items: [], // { id, name, price:number, quantity }
+// ✅ Load from localStorage FIRST
+const savedCart = JSON.parse(localStorage.getItem("cart"));
+
+const initialState = savedCart || {
+  items: [],
   totalQuantity: 0,
-  totalPrice: 0, // ALWAYS number
+  totalPrice: 0,
+  loading: false,
 };
 
+const saveCart = (state) => {
+  localStorage.setItem("cart", JSON.stringify(state));
+};
+
+
+// Async thunk: simulate saving cart to server
+export const saveCartToServer = createAsyncThunk(
+  "cart/saveCartToServer",
+  async (_, { getState, rejectWithValue }) => {
+    const { cart } = getState();
+
+    try {
+      // simulate network delay
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      
+      // Normally you would call your API here:
+      // await api.saveCart(cart);
+
+      // Return the updated cart as payload
+      return cart;
+    } catch (err) {
+      return rejectWithValue("Failed to save cart");
+    }
+  }
+);
+
 const cartSlice = createSlice({
-  name: 'cart',
+  name: "cart",
   initialState,
   reducers: {
-    // Add item or increase quantity
     addToCart: (state, action) => {
-  const item = action.payload;
-  const numericPrice = parseFloat(item.price.replace("$", "")) || 0; // 🔑 Normalize price
+      const item = action.payload;
+      const numericPrice =
+        typeof item.price === "string"
+          ? parseFloat(item.price.replace("$", ""))
+          : item.price;
 
-  const existingItem = state.items.find(
-    (cartItem) => cartItem.id === item.id
-  );
+      const existingItem = state.items.find(i => i.id === item.id);
 
-  if (existingItem) {
-    // Immutable update: Map to new array, increment quantity
-    state.items = state.items.map(cartItem =>
-      cartItem.id === item.id
-        ? { ...cartItem, quantity: cartItem.quantity + 1 }
-        : cartItem
-    );
-    state.totalQuantity += 1;
-    state.totalPrice += numericPrice; // Increment by single item price
-  } else {
-    // New item: Push new object with numeric price
-    state.items.push({
-      ...item,
-      price: numericPrice, // 🔑 Store as number, not string
-      quantity: 1,
-    });
-    state.totalQuantity += 1;
-    state.totalPrice += numericPrice * 1; // * 1 for clarity
-  }
-},
+      if (existingItem) {
+        existingItem.quantity += 1;
+        state.totalQuantity += 1;
+        state.totalPrice += numericPrice;
+      } else {
+        state.items.push({
+          ...item,
+          price: numericPrice,
+          quantity: 1,
+        });
+        state.totalQuantity += 1;
+        state.totalPrice += numericPrice;
+      }
 
-    // Increase quantity
+      saveCart(state); // ✅ persist
+
+
+    },
+
     increaseQuantity: (state, action) => {
-      const { id } = action.payload;
-      const item = state.items.find((cartItem) => cartItem.id === id);
-
+      const item = state.items.find(i => i.id === action.payload.id);
       if (!item) return;
 
       item.quantity += 1;
       state.totalQuantity += 1;
-      state.totalPrice += item.price; // already number
+      state.totalPrice += item.price;
+
+      saveCart(state);
     },
 
-    // Decrease quantity (STOP at 1)
     decreaseQuantity: (state, action) => {
-      const { id } = action.payload;
-      const item = state.items.find((cartItem) => cartItem.id === id);
-
-      if (!item || item.quantity === 1) return; // 🔒 disable at 1
+      const item = state.items.find(i => i.id === action.payload.id);
+      if (!item || item.quantity === 1) return;
 
       item.quantity -= 1;
       state.totalQuantity -= 1;
       state.totalPrice -= item.price;
+
+      saveCart(state);
     },
 
-    // Remove entire item
     removeFromCart: (state, action) => {
-      const id = action.payload;
-      const item = state.items.find((cartItem) => cartItem.id === id);
-
+      const item = state.items.find(i => i.id === action.payload);
       if (!item) return;
 
       state.totalQuantity -= item.quantity;
       state.totalPrice -= item.price * item.quantity;
+      state.items = state.items.filter(i => i.id !== action.payload);
 
-      state.items = state.items.filter(
-        (cartItem) => cartItem.id !== id
-      );
+      saveCart(state);
     },
 
-    // Clear cart
     clearCart: (state) => {
       state.items = [];
       state.totalQuantity = 0;
       state.totalPrice = 0;
+
+      saveCart(state);
     },
   },
+
+  extraReducers: (builder) => { 
+    builder
+    .addCase(saveCartToServer.pending, (state) => { 
+        state.loading = true;
+        state.error = null;
+    })
+    .addCase(saveCartToServer.fulfilled, (state, action) => {
+        state.loading = false;
+        //Normally update state with server response if needed
+        state.items = action.payload.items;
+        state.totalQuantity = action.payload.totalQuantity;
+        state.totalPrice = action.payload.totalPrice;
+
+        savedCart(state) // persist
+    })
+    .addCase(saveCartToServer.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+    });
+  }
 });
 
 export const {
@@ -97,3 +141,4 @@ export const {
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
+

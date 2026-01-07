@@ -116,7 +116,7 @@ const MainHolder = () => {
 dark:bg-[#2A1F1A]"
     >
       <div className="text-3xl mb-3">{stat.icon}</div>
-      <h3 className="text-sm font-medium text-gray-600 mb-2">{stat.label}</h3>
+      <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">{stat.label}</h3>
       <p className={`${stat.color} bg-clip-text text-transparent text-xl font-bold`}>
         {stat.value}
       </p>

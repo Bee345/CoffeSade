@@ -4,27 +4,40 @@ import {
   Home, Coffee, Clock, ShoppingCart,
   Heart, User, LogOut, X, Receipt
 } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import {closeSidebar } from '../features/ui/uiSlice.js';
+import {logout} from '../features/auth/authSlice.js';
 
-const MainSidebar = ({ isOpen, onClose }) => {
+
+const MainSidebar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const sidebarOpen = useSelector((state) => state.ui.sidebarOpen);
   const totalQuantity = useSelector((state) => state.cart.totalQuantity || 0);
+
+  const handleClose = () => dispatch(closeSidebar());
 
   const handleLogout = () => {
     localStorage.removeItem('currentUser');
-    onClose();
+    dispatch(closeSidebar());
+    dispatch(logout());
     navigate('/signup');
   };
+
+
+
+//   const state = useSelector((state) => state);
+// console.log(state);
 
   return (
     <>
       {/* Mobile overlay */}
       <div
-        onClick={onClose}
+        onClick={handleClose}
         className={`
           fixed inset-0 bg-black/50 z-30 transition-opacity duration-500
           md:hidden
-          ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
+          ${sidebarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
         `}
       />
 
@@ -37,13 +50,13 @@ const MainSidebar = ({ isOpen, onClose }) => {
     text-gray-900 dark:text-gray-100
     shadow-lg
     transform transition-transform duration-500 ease-in-out
-    ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+    ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
   `}
 >
 
         {/* Close button (mobile only) */}
         <button
-          onClick={onClose}
+          onClick={handleClose}
           className="absolute top-4 right-4 md:hidden hover:text-amber-400 transition-colors"
           aria-label="Close sidebar"
         >
@@ -52,19 +65,19 @@ const MainSidebar = ({ isOpen, onClose }) => {
 
         <div className="pt-20 px-4 flex flex-col h-full">
           <nav className="space-y-1 flex-1">
-            <SidebarLink to="/app" icon={<Home size={20} />} label="Dashboard" onClick={onClose} />
-            <SidebarLink to="/app/userMenu" icon={<Coffee size={20} />} label="Browse Menu" onClick={onClose} />
-            <SidebarLink to="/app/ordersHistory" icon={<Clock size={20} />} label="Order History" onClick={onClose} />
+            <SidebarLink to="/app" icon={<Home size={20} />} label="Dashboard" onClick={handleClose} />
+            <SidebarLink to="/app/userMenu" icon={<Coffee size={20} />} label="Browse Menu" onClick={handleClose} />
+            <SidebarLink to="/app/ordersHistory" icon={<Clock size={20} />} label="Order History" onClick={handleClose} />
             <SidebarLink
               to="/app/cart"
               icon={<ShoppingCart size={20} />}
               label="Cart"
-              onClick={onClose}
+              onClick={handleClose}
               totalQuantity={totalQuantity}
             />
-            <SidebarLink to="/app/checkout" icon={<Receipt size={20} />} label="Checkout" onClick={onClose} />
-            <SidebarLink to="/app/favorites" icon={<Heart size={20} />} label="Favorites" onClick={onClose} />
-            <SidebarLink to="/app/profile" icon={<User size={20} />} label="Profile" onClick={onClose} />
+            <SidebarLink to="/app/checkout" icon={<Receipt size={20} />} label="Checkout" onClick={handleClose} />
+            <SidebarLink to="/app/favorites" icon={<Heart size={20} />} label="Favorites" onClick={handleClose} />
+            <SidebarLink to="/app/profile" icon={<User size={20} />} label="Profile" onClick={handleClose} />
           </nav>
 
           {/* Logout */}

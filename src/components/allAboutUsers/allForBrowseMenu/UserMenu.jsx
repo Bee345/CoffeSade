@@ -6,6 +6,8 @@ import { cupCakes } from "../../../data/cupCakes.js";
 import { brunchToast } from "../../../data/toast.js";
 import { Search, Filter } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import useAppNavigate from "../../../hook/useAppNavigate.js";
+
 
 /* ✅ Redux */
 import { useDispatch, useSelector } from "react-redux"; // Added useSelector
@@ -25,6 +27,9 @@ const UserMenu = () => {
     dietary: [],
   });
 
+
+  const appNavigate = useAppNavigate();
+  appNavigate("/app/userMenu");
   // ✅ Unified: Get favorites from Redux (array of objects)
   const favorites = useSelector((state) => state.favorites || []);
 
@@ -194,7 +199,7 @@ const UserMenu = () => {
       {/* Items */}
       <section className="max-w-6xl mx-auto">
         {items.length ? (
-          <div className="columns-2 md:columns-3 gap-6 space-y-6">
+          <div className="columns-1 md:columns-3 gap-6 space-y-6">
             {items.map(item => {
               // ✅ Per-item favorite check from Redux
               const isFavorite = favorites.some(fav => fav.id === item.id);

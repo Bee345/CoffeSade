@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { clearCart } from "../../../features/cart/cartSlice"; // Clear cart after order
-import { setSuccessOrder } from "../../../features/orders/orderSlice"; // Save successful order
+// import { setSuccessOrder } from "../../../features/orders/orderSlice"; // Save successful order
 import { Truck, CreditCard, CheckCircle, X } from "lucide-react"; // Icons for shipping, payment, confirmation
 
 const UserCheckout = () => {

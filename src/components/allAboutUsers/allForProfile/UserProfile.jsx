@@ -1,10 +1,15 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { User, Edit3, Save, Trash2, Bell, CreditCard, MapPin, Calendar, Key, LogOut, ChevronDown, Sun, Moon, Globe, Shield, Download, Mail } from "lucide-react"; // Added icons for new features
+import { useDispatch } from "react-redux";
+// import {setTheme} from '../../../features/theme/themeSlice'
+
+
 
 const UserProfile = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null); // From localStorage
+  const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false); // Edit mode toggle
   const [activeTab, setActiveTab] = useState("info"); // Desktop tabs: info, settings, prefs, actions
   const [openSection, setOpenSection] = useState("info"); // Mobile accordion
@@ -33,8 +38,9 @@ const UserProfile = () => {
       setNotifications(currentUser.notifications || false);
       setPaymentMethods(currentUser.paymentMethods || "");
       setOrderPref(currentUser.orderPref || "local");
-      setDarkMode(currentUser.darkMode || false);
+      setDarkMode(currentUser.darkMode ?? false);
       setLanguage(currentUser.language || "en");
+      // dispatch(setTheme(currentUser.darkMode ?? false));
       setPrivacyMode(currentUser.privacyMode || false);
       setDietaryPrefs(currentUser.dietaryPrefs || []);
       setFavoriteLocation(currentUser.favoriteLocation || "");
@@ -149,7 +155,7 @@ const UserProfile = () => {
           <img
             src={avatarPreview || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop&crop=face"}
             alt="Avatar"
-            className="w-32 h-32 rounded-full object-cover border-4 border-amber-200 shadow-lg"
+            className="w-32 h-32 rounded-full object-cover border-4 border-amber-200 dark:border-amber-500 shadow-lg"
           />
           {isEditing && (
             <label className="absolute bottom-0 right-0 bg-amber-500 text-white p-2 rounded-full cursor-pointer hover:bg-amber-600 transition-colors">
@@ -161,7 +167,7 @@ const UserProfile = () => {
         <h1 className="text-3xl font-bold text-gray-800 mb-2 font-playfair">{user.firstname} {user.lastname}</h1>
         <p className="text-gray-600">{user.email}</p>
         {!isEditing ? (
-          <button onClick={() => setIsEditing(true)} className="mt-4 px-6 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors">
+          <button onClick={() => { setIsEditing(true); setActiveTab("info"); setOpenSection(""); }} className="mt-4 px-6 py-2 bg-amber-500 dark:bg-amber-700 text-white rounded-lg hover:bg-amber-600 transition-colors">
             <Edit3 size={18} className="inline mr-2" /> Edit Profile
           </button>
         ) : (
@@ -177,7 +183,7 @@ const UserProfile = () => {
           {["info", "settings", "prefs", "actions"].map(tab => (
             <button
               key={tab}
-              onClick={() => setActiveTab(tab)}
+              onClick={() => { setActiveTab(tab); setOpenSection(""); }}
               className={`px-6 py-3 font-medium transition-colors ${
                 activeTab === tab ? "border-b-2 border-amber-500 text-amber-600" : "text-gray-500 hover:text-gray-700"
               }`}
@@ -188,21 +194,27 @@ const UserProfile = () => {
         </div>
         {/* Mobile Accordion */}
         <div className="md:hidden mb-6 space-y-2">
-          {["info", "settings", "prefs", "actions"].map(tab => (
-            <button
-              key={tab}
-              onClick={() => setOpenSection(openSection === tab ? "" : tab)}
-              className="w-full text-left p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              {tab.charAt(0).toUpperCase() + tab.slice(1).replace(/([A-Z])/g, ' $1')}
-              <ChevronDown size={20} className={`ml-auto transition-transform ${openSection === tab ? 'rotate-180' : ''}`} />
-            </button>
-          ))}
-        </div>
+  {["info", "settings", "prefs", "actions"].map(tab => (
+    <button
+      key={tab}
+      onClick={() => setOpenSection(prev => prev === tab ? "" : tab)}
+      className="w-full flex justify-between items-center p-4 border border-amber-200 dark:border-amber-700 rounded-lg hover:bg-gray-400 transition-colors"
+    >
+      <span>
+        {tab.charAt(0).toUpperCase() + tab.slice(1)}
+      </span>
+      <ChevronDown
+        size={20}
+        className={`transition-transform ${openSection === tab ? "rotate-180" : ""}`}
+      />
+    </button>
+  ))}
+</div>
+
         {/* Sections */}
         <div className="space-y-6">
           {/* User Info Section - Always visible or toggled, with validation errors */}
-          <section className={activeTab === "info" || openSection === "info" ? "block" : "hidden md:block"}>
+          <section className={`${activeTab === "info" ? "md:block" : "md:hidden"} ${openSection === "info" ? "block" : "hidden"}`}>
             <h2 className="text-xl font-bold mb-4 text-gray-800 flex items-center"><User size={20} className="mr-2" /> Personal Info</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -263,7 +275,7 @@ const UserProfile = () => {
             </div>
           </section>
           {/* Settings Section - Unique content, visible only on tab/accordion */}
-          <section className={activeTab === "settings" || openSection === "settings" ? "block" : "hidden md:block"}>
+          <section className={`${activeTab === "settings" ? "md:block" : "md:hidden"} ${openSection === "settings" ? "block" : "hidden"}`}>
             <h2 className="text-xl font-bold mb-4 text-gray-800 flex items-center"><Bell size={20} className="mr-2" /> Settings</h2>
             <div className="space-y-4">
               <label className="flex items-center">
@@ -322,7 +334,7 @@ const UserProfile = () => {
             </div>
           </section>
           {/* Order Prefs Section - Unique content, visible only on tab/accordion */}
-          <section className={activeTab === "prefs" || openSection === "prefs" ? "block" : "hidden md:block"}>
+          <section className={`${activeTab === "prefs" ? "md:block" : "md:hidden"} ${openSection === "prefs" ? "block" : "hidden"}`}>
             <h2 className="text-xl font-bold mb-4 text-gray-800 flex items-center"><MapPin size={20} className="mr-2" /> Order Preferences</h2>
             <div className="space-y-4">
               <p className="text-sm text-gray-600">Delivery Mode</p>
@@ -389,7 +401,7 @@ const UserProfile = () => {
             </div>
           </section>
           {/* Account Actions Section - Unique content, visible only on tab/accordion */}
-          <section className={activeTab === "actions" || openSection === "actions" ? "block" : "hidden md:block"}>
+          <section className={`${activeTab === "actions" ? "md:block" : "md:hidden"} ${openSection === "actions" ? "block" : "hidden"}`}>
             <h2 className="text-xl font-bold mb-4 text-gray-800 flex items-center"><Key size={20} className="mr-2" /> Account Actions</h2>
             <div className="space-y-3">
               <button

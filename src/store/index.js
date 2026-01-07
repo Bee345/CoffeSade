@@ -19,6 +19,9 @@ import { configureStore } from '@reduxjs/toolkit';
 import cartReducer from '../features/cart/cartSlice';
 import favoritesReducer from '../features/favorite/favoritesSlice';
 import ordersReducer from '../features/orders/orderSlice';
+import themeReducer from '../features/theme/themeSlice';
+import authReducer from '../features/auth/authSlice';
+import uiReducer from '../features/ui/uiSlice';
 
 // Function to load state from localStorage
 const loadState = () => {
@@ -42,6 +45,9 @@ export const store = configureStore({
       cart: cartReducer,
       favorites: favoritesReducer,
       orders: ordersReducer,
+      theme: themeReducer,
+      auth: authReducer,
+      ui: uiReducer,
   },
   preloadedState, // <-- initialize store with localStorage state
   devTools: true,

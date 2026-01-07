@@ -2,11 +2,13 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { increaseQuantity, decreaseQuantity, removeFromCart, clearCart } from '../../../features/cart/cartSlice.js'; // Adjust path
 import { useNavigate } from 'react-router-dom';
+import Skeleton from '../../Skeleton.jsx';
 
 function UserCart() {
+    //pull cart state including laoding
   const dispatch = useDispatch();
-  const { items, totalQuantity, totalPrice } = useSelector((state) => state.cart);
   const navigate = useNavigate();
+  const { items, totalQuantity, totalPrice, loading } = useSelector((state) => state.cart);
 
   // Helper to parse price (handles string "$3.50" or number 3.50; fixes NaN/type error)
   const parsePrice = (priceStr) => {
@@ -15,9 +17,26 @@ function UserCart() {
     return 0; // Fallback for undefined/null
   };
 
+
+  // Show Skeleton While loading
+  if(loading){ 
+    return( 
+        <div className="p-4 bg-[#EDE5DC] min-h-screen"> 
+        <h2 className='text-2xl text-gray-700 font-bold mb-4'>Shopping Cart</h2>
+        {[...Array(5)].map((_, index) => (
+            <> 
+            <Skeleton key={index} className={`h-20 w-full mb-4`} />
+            <Skeleton key={index} className={`h-20 w-full mb-4`} />
+            </>
+        ))}
+        </div>
+    )
+  }
+
   if (totalQuantity === 0) {
     return <p className="text-center text-gray-600 dark:text-gray-200">Your cart is empty.</p>;
   }
+
 
   return (
     <div className="p-4 bg-[#EDE5DC]  min-h-screen">
@@ -42,7 +61,7 @@ function UserCart() {
                 >
                   -
                 </button>
-                <span className='text-gray-700 dark:text-gray-200'>{item.quantity || 0}</span>
+                <span className='text-gray-700 '>{item.quantity || 0}</span>
                 <button
                   onClick={() => dispatch(increaseQuantity({ id: item.id }))}
                   className="bg-green-500 text-white px-2 py-1 rounded"

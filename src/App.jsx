@@ -1,6 +1,8 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import './index.css';
 // import LHeader from './components/LHeader';
 import WelcomeLayout from './components/WelcomeLayout.jsx';
@@ -24,6 +26,18 @@ import SignUp from './pages/SignUp.jsx';
 
 function App() {
   
+// const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+
+// useEffect(() => { 
+//   const root = document.documentElement;
+
+//   if(isDarkMode){ 
+//     root.classList.add('dark');
+//   } else{ 
+//     root.classList.remove('dark');
+//   }
+// }, [isDarkMode]);
+
   return (
        <Routes>
       {/* Layout route */}

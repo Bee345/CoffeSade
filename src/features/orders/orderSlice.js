@@ -1,99 +1,92 @@
 import { createSlice, createAsyncThunk, nanoid } from "@reduxjs/toolkit";
 
-// Helper: Get current user from localStorage
-const getCurrentUser = () => JSON.parse(localStorage.getItem("currentUser") || "{}");
+// Helpers
+const getCurrentUser = () =>
+  JSON.parse(localStorage.getItem("currentUser") || "{}");
 
-// Helper: Get user's orders key
-const getOrdersKey = (user = getCurrentUser()) => `orders_${user.email || "guest"}`;
+const getOrdersKey = (user) =>
+  `orders_${user.email || "guest"}`;
 
-// Initial state loader
-const loadInitialOrders = () => {
+const loadOrders = () => {
   const user = getCurrentUser();
   if (!user.email) return [];
-  const saved = localStorage.getItem(getOrdersKey(user));
-  return JSON.parse(saved || "[]");
+  return JSON.parse(localStorage.getItem(getOrdersKey(user)) || "[]");
+};
+
+const saveOrders = (user, orders) => {
+  if (user.email) {
+    localStorage.setItem(getOrdersKey(user), JSON.stringify(orders));
+  }
 };
 
 const initialState = {
-  orders: [...loadInitialOrders()],
-  successOrder: null, // For storing last successful order
-  loading: false, // Global loading for async actions
-  error: null, // Error handling
+  orders: loadOrders(),
+  successOrder: null,
+  loading: false,
+  error: null,
 };
 
-// Async: Place order from current cart
+// ✅ PLACE ORDER
 export const placeOrder = createAsyncThunk(
   "orders/placeOrder",
   async (_, { getState, rejectWithValue }) => {
-    const state = getState();
-    const { cart } = state; // Assume cart slice has 'cart' with items/total
+    const { cart } = getState();
     const user = getCurrentUser();
 
-    if (!user.email) {
-      return rejectWithValue("Not authenticated");
-    }
-    if (cart.items.length === 0) {
-      return rejectWithValue("Cart is empty");
-    }
-
-    const { items, totalPrice } = cart; // Pull from cart state
+    if (!user.email) return rejectWithValue("Not authenticated");
+    if (!cart.items.length) return rejectWithValue("Cart is empty");
 
     const newOrder = {
       id: nanoid(),
       userEmail: user.email,
-      items, // Full cart items
-      totalPrice,
+      items: cart.items,
+      totalPrice: cart.totalPrice,
       date: new Date().toISOString(),
       status: "pending",
-      loyaltySaved: totalPrice * 0.1, // Example: 10% loyalty savings
-      details: items.map(item => ({ // For backward compat with your component
-        name: item.name,
-        qty: item.quantity || 1,
-        price: item.price,
-      })),
       updates: [
-        { timestamp: new Date().toISOString(), message: "Order placed", icon: "Clock" },
+        {
+          timestamp: new Date().toISOString(),
+          message: "Order placed",
+        },
       ],
     };
 
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(r => setTimeout(r, 800));
 
-    const updatedOrders = [...state.orders.orders, newOrder];
-    localStorage.setItem(getOrdersKey(user), JSON.stringify(updatedOrders));
+    const existingOrders = loadOrders();
+    const updatedOrders = [newOrder, ...existingOrders];
+
+    saveOrders(user, updatedOrders);
+
     return { newOrder, updatedOrders };
   }
 );
 
-// Async: Update order status (with mock "tracking")
+// ✅ TRACK ORDER
 export const trackOrderUpdate = createAsyncThunk(
   "orders/trackOrderUpdate",
-  async ({ orderId, status }, { getState, rejectWithValue }) => {
-    const state = getState();
+  async ({ orderId, status }, { getState }) => {
     const user = getCurrentUser();
-    if (!user.email) return rejectWithValue("Not authenticated");
+    const orders = getState().orders.orders;
 
-    // Simulate tracking delay
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    const updatedOrders = orders.map(order =>
+      order.id === orderId
+        ? {
+            ...order,
+            status,
+            updates: [
+              ...order.updates,
+              {
+                timestamp: new Date().toISOString(),
+                message: status,
+              },
+            ],
+          }
+        : order
+    );
 
-    const newStatus = status || (state.orders.orders.find(o => o.id === orderId)?.status === "pending" ? "preparing" : "delivered");
-    const updatedOrders = state.orders.orders.map(order => {
-      if (order.id === orderId) {
-        return {
-          ...order,
-          status: newStatus,
-          updates: [...order.updates, {
-            timestamp: new Date().toISOString(),
-            message: `${newStatus.charAt(0).toUpperCase() + newStatus.slice(1)}`,
-            icon: newStatus === "delivered" ? "CheckCircle" : "Package",
-          }],
-        };
-      }
-      return order;
-    });
-
-    localStorage.setItem(getOrdersKey(user), JSON.stringify(updatedOrders));
-    return { orderId, status: newStatus, updatedOrders };
+    saveOrders(user, updatedOrders);
+    return updatedOrders;
   }
 );
 
@@ -101,45 +94,30 @@ const orderSlice = createSlice({
   name: "orders",
   initialState,
   reducers: {
-    // Sync actions (e.g., remove)
     removeOrder: (state, action) => {
-      const orderId = action.payload;
-      const updated = state.orders.filter(o => o.id !== orderId);
       const user = getCurrentUser();
-      if (user.email) {
-        localStorage.setItem(getOrdersKey(user), JSON.stringify(updated));
-      }
-      state.orders = updated;
+      state.orders = state.orders.filter(o => o.id !== action.payload);
+      saveOrders(user, state.orders);
     },
+
     clearOrders: (state) => {
+      const user = getCurrentUser();
       state.orders = [];
-      const user = getCurrentUser();
-      if (user.email) {
-        localStorage.removeItem(getOrdersKey(user));
-      }
+      localStorage.removeItem(getOrdersKey(user));
     },
-    // New: Manual set for initial load or sync
+
     setOrders: (state, action) => {
-      state.orders = action.payload;
       const user = getCurrentUser();
-      if (user.email) {
-        localStorage.setItem(getOrdersKey(user), JSON.stringify(action.payload));
-      }
-    },
-
-
-    setSuccessOrder: (state, action) => {
-        state.successOrder = action.payload; //save the order to state
-        state.orders.push(action.payload); // Optionally keeps full History
+      state.orders = action.payload;
+      saveOrders(user, action.payload);
     },
 
     clearSuccessOrder: (state) => {
-        state.orders = [];
-        state.successOrder = null;
+      state.successOrder = null;
+    },
   },
   extraReducers: (builder) => {
     builder
-      // placeOrder
       .addCase(placeOrder.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -147,31 +125,37 @@ const orderSlice = createSlice({
       .addCase(placeOrder.fulfilled, (state, action) => {
         state.loading = false;
         state.orders = action.payload.updatedOrders;
-        state.successOrder = action.payload.newOrder; // Save successful order
+        state.successOrder = action.payload.newOrder;
       })
       .addCase(placeOrder.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      // trackOrderUpdate
-      .addCase(trackOrderUpdate.pending, (state) => {
-        state.loading = true;
+      //Track Order
+      .addCase(trackOrderUpdate.pending, (state) => { 
+        state.loading - true;
         state.error = null;
       })
       .addCase(trackOrderUpdate.fulfilled, (state, action) => {
         state.loading = false;
-        state.orders = action.payload.updatedOrders;
+        state.orders = action.payload;
       })
-      .addCase(trackOrderUpdate.rejected, (state, action) => {
+      .addCase(trackOrderUpdate.rejected, (state, action) => { 
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.error?.message;
       });
   },
-}
 });
 
-export const { removeOrder, clearOrders, setOrders, clearSuccessOrder, setSuccessOrder } = orderSlice.actions;
+export const {
+  removeOrder,
+  clearOrders,
+  setOrders,
+  clearSuccessOrder,
+} = orderSlice.actions;
+
 export default orderSlice.reducer;
+
 
 
 // import { createSlice, createAsyncThunk, nanoid } from "@reduxjs/toolkit";

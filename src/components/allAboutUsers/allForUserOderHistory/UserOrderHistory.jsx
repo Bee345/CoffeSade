@@ -7,7 +7,17 @@ import {
   removeOrder,
   setOrders,
 } from "../../../features/orders/orderSlice";
-import { Clock, Truck, CheckCircle, Package, ChevronDown, RefreshCw, Coffee } from "lucide-react";
+import Skeleton from "../../Skeleton.jsx";
+import {
+  Clock,
+  Truck,
+  CheckCircle,
+  Package,
+  ChevronDown,
+  RefreshCw,
+  Coffee,
+} from "lucide-react";
+import { div } from "framer-motion/client";
 
 /* ---------------- ICON MAP ---------------- */
 const iconMap = {
@@ -22,11 +32,9 @@ const UserOrderHistory = () => {
   const dispatch = useDispatch();
 
   /* ---------------- REDUX ---------------- */
-  const ordersFromRedux = useSelector((state) => state.orders?.orders || []);
-  const { loading, error } = useSelector((state) => state.orders || {});
+  const { orders, loading, error } = useSelector((state) => state.orders);
 
   /* ---------------- LOCAL STATE ---------------- */
-  const [orders, setOrdersState] = useState([]);
   const [filter, setFilter] = useState("all");
   const [expandedOrder, setExpandedOrder] = useState(null);
   const [stats, setStats] = useState({ saved: 0, topItem: "None" });
@@ -73,7 +81,6 @@ const UserOrderHistory = () => {
       dispatch(setOrders(savedOrders));
     }
 
-    setOrdersState(savedOrders);
     calculateStats(savedOrders);
   }, [dispatch, currentUser.email]);
 
@@ -117,82 +124,110 @@ const UserOrderHistory = () => {
     <div className="min-h-screen p-6 bg-amber-50">
       {error && <p className="text-red-600 mb-4">{error}</p>}
 
-      {/* STATS */}
-      <div className="bg-[#EDE5DC]  p-4 rounded mb-6 flex gap-4">
-        <Package size={20} />
-        <span>Saved ${stats.saved}</span>
-        <Coffee size={20} />
-        <span>Top Item: {stats.topItem}</span>
-      </div>
+     {/* STATS */}
+<div className="bg-[#EDE5DC] p-4 rounded mb-6 flex gap-6 items-center">
+  {loading ? (
+    <>
+      <Skeleton className="h-4 w-24" />
+      <Skeleton className="h-4 w-32" />
+    </>
+  ) : (
+    <>
+      <Package size={20} />
+      <span>Saved ${stats.saved}</span>
+      <Coffee size={20} />
+      <span>Top Item: {stats.topItem}</span>
+    </>
+  )}
+</div>
+
 
       {/* ORDERS */}
-      {filteredOrders.map((order) => (
-        <div key={order.id} className="bg-[#EDE5DC] p-4 rounded mb-4 shadow">
-          <div className="flex justify-between">
-            <div>
-              <p className="font-bold">{order.date}</p>
-              <p>
-  {typeof order.items === "string"
-    ? order.items
-    : (order.items || []).map((item, i) => (
-        <span key={i}>
-          {item.name} x {item.quantity}{i < order.items.length - 1 ? ", " : ""}
-        </span>
-      ))}
-</p>
+      {!loading && filteredOrders.length === 0 && ( 
+        <div className="text-center py-12 text-gray-500">
+        <Package size={40} className="mx-auto mb-3" />
+        <p>No Orders Yet</p>
+        <p className="text-sm">Your Order History will appear here once you place an order.</p>
 
-            </div>
-            <p>${order.total.toFixed(2)}</p>
-          </div>
-
-          {/* TIMELINE */}
-          <div className="flex gap-3 mt-3">
-            {(order.updates || []).map((u, i) => {
-              const Icon = iconMap[u.icon] || Clock;
-              return (
-                <div key={i} className="flex items-center gap-1 text-sm">
-                  <Icon size={14} />
-                  {u.message}
-                </div>
-              );
-            })}
-          </div>
-
-          {/* ACTIONS */}
-          <div className="flex gap-3 mt-4">
-            <button onClick={() => handleReorder(order)}>Reorder</button>
-            <button onClick={() => handleTrack(order.id)} disabled={loading}>
-              {loading ? <RefreshCw className="animate-spin" /> : "Track"}
-            </button>
-            <button onClick={() => handleRemove(order.id)}>Remove</button>
-          </div>
-
-          {/* DETAILS */}
-          <button
-            className="mt-3 flex items-center gap-2"
-            onClick={() =>
-              setExpandedOrder(expandedOrder === order.id ? null : order.id)
-            }
-          >
-            View Details <ChevronDown size={16} />
-          </button>
-
-          {expandedOrder === order.id && (
-            <div className="mt-2 text-sm">
-              {(order.details || []).map((d, i) => (
-                <div key={i} className="flex justify-between">
-                  <span>
-                    {d.name} x {d.qty}
-                  </span>
-                  <span>${d.price.toFixed(2)}</span>
-                </div>
-              ))}
-            </div>
-          )}
         </div>
-      ))}
+      )}
+      {loading ? (
+        <>
+          <Skeleton className="h-24 w-full mb-4" />
+          <Skeleton className="h-24 w-full mb-4" />
+          <Skeleton className="h-24 w-full mb-4" />
+        </>
+      ) : (
+        filteredOrders.map((order) => (
+          <div key={order.id} className="bg-[#EDE5DC] p-4 rounded mb-4 shadow">
+            <div className="flex justify-between">
+              <div>
+                <p className="font-bold">{order.date}</p>
+                <p>
+                  {typeof order.items === "string"
+                    ? order.items
+                    : (order.items || []).map((item, i) => (
+                        <span key={i}>
+                          {item.name} x {item.quantity}
+                          {i < order.items.length - 1 ? ", " : ""}
+                        </span>
+                      ))}
+                </p>
+              </div>
+              <p>${order.total.toFixed(2)}</p>
+            </div>
+
+            {/* TIMELINE */}
+            <div className="flex gap-3 mt-3">
+              {(order.updates || []).map((u, i) => {
+                const Icon = iconMap[u.icon] || Clock;
+                return (
+                  <div key={i} className="flex items-center gap-1 text-sm">
+                    <Icon size={14} />
+                    {u.message}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* ACTIONS */}
+            <div className="flex gap-3 mt-4">
+              <button onClick={() => handleReorder(order)}>Reorder</button>
+              <button onClick={() => handleTrack(order.id)} disabled={loading}>
+                {loading ? <RefreshCw className="animate-spin" /> : "Track"}
+              </button>
+              <button onClick={() => handleRemove(order.id)}>Remove</button>
+            </div>
+
+            {/* DETAILS */}
+            <button
+              className="mt-3 flex items-center gap-2"
+              onClick={() =>
+                setExpandedOrder(expandedOrder === order.id ? null : order.id)
+              }
+            >
+              View Details <ChevronDown size={16} />
+            </button>
+
+            {expandedOrder === order.id && (
+              <div className="mt-2 text-sm">
+                {(order.details || []).map((d, i) => (
+                  <div key={i} className="flex justify-between">
+                    <span>
+                      {d.name} x {d.qty}
+                    </span>
+                    <span>${d.price.toFixed(2)}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ))
+      )}
     </div>
   );
 };
 
 export default UserOrderHistory;
+
+

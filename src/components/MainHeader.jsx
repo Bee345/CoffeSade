@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Menu, ShoppingCart, Sun, Moon } from "lucide-react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleTheme } from "../features/theme/themeSlice";
+import {toggleSidebar} from '../features/ui/uiSlice';
 
 const MainHeader = ({ onToggleSidebar }) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
+  // const [currentUser, setCurrentUser] = useState(null);
+  const dispatch = useDispatch();
 
-  // Sync dark mode on mount
-  useEffect(() => {
-    const isDark = document.documentElement.classList.contains("dark");
-    setIsDarkMode(isDark);
-  }, []);
+
+
+  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
   // Fetch user from localStorage
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("currentUser") || "{}");
-    setCurrentUser(user);
-  }, []);
+  let currentUser = useSelector((state) => state.auth.user);
 
   // Redux cart quantity
   const totalQuantity = useSelector((state) => state.cart.totalQuantity || 0);
@@ -38,11 +35,9 @@ const MainHeader = ({ onToggleSidebar }) => {
   };
 
   // Toggle dark mode
-  const toggleTheme = () => {
-    const next = !isDarkMode;
-    setIsDarkMode(next);
-    document.documentElement.classList.toggle("dark", next);
-  };
+  const handleToggleTheme = () => { 
+    dispatch(toggleTheme())
+  }
 
   return (
     <header className="
@@ -58,7 +53,7 @@ const MainHeader = ({ onToggleSidebar }) => {
       {/* Left */}
       <div className="flex items-center gap-2 sm:gap-3 min-w-0">
         <button
-          onClick={onToggleSidebar}
+          onClick={() => dispatch(toggleSidebar())}
           className="p-1 sm:p-2 hover:text-amber-300 dark:hover:text-amber-400 transition-colors"
           aria-label="Toggle sidebar"
         >
@@ -66,7 +61,7 @@ const MainHeader = ({ onToggleSidebar }) => {
         </button>
 
         <div className="flex items-center gap-2 sm:gap-3 truncate min-w-[120px] sm:min-w-[140px]">
-          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-amber-400 flex items-center justify-center">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-amber-400 dark:bg-amber-800 flex items-center justify-center">
             <span className="text-white font-bold text-sm sm:text-base">
               {getUserInitials(currentUser)}
             </span>
@@ -94,12 +89,31 @@ const MainHeader = ({ onToggleSidebar }) => {
         </Link>
 
         <button
-          onClick={toggleTheme}
-          className="p-1 sm:p-2 hover:text-amber-300 dark:hover:text-amber-400 transition-colors"
-          aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
-        >
-          {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-        </button>
+  onClick={handleToggleTheme}
+  className="relative p-2 rounded-full
+             hover:bg-black/10 dark:hover:bg-white/10
+             transition-all duration-300 cursor-pointer"
+  aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+>
+  <span
+    className={`absolute inset-0 flex items-center justify-center
+      transition-all duration-300
+      ${isDarkMode ? "rotate-0 scale-100 opacity-100" : "rotate-90 scale-0 opacity-0"}
+    `}
+  >
+    <Sun size={20} />
+  </span>
+
+  <span
+    className={`flex items-center justify-center
+      transition-all duration-300
+      ${isDarkMode ? "rotate-90 scale-0 opacity-0" : "rotate-0 scale-100 opacity-100"}
+    `}
+  >
+    <Moon size={20} />
+  </span>
+</button>
+
       </div>
     </header>
   );
